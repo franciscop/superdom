@@ -1,8 +1,8 @@
 {
   "name": "superdom",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "description": "Better and simpler DOM manipulation",
-  "main": "dom.min.js",
+  "main": "superdom.min.js",
   "dependencies": {},
   "devDependencies": {
     "grunt": "^1.0.1",
