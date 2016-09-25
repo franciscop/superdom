@@ -1,10 +1,6 @@
 # superdom.js
 
-Better and simpler ES6 DOM manipulation
-
-> Not compatible with Internet Explorer and older Safari http://caniuse.com/#feat=proxy
-
-You have `dom`. It has all the DOM virtually within it. Take that power:
+You have `dom`. It has all the DOM virtually within it. Use that power:
 
 ```js
 // Fetch all of the links from the page
@@ -14,6 +10,7 @@ var links = dom.a;
 dom.a.attr.target = '_blank';
 ```
 
+> Not compatible with Internet Explorer and older Safari http://caniuse.com/#feat=proxy
 
 
 ## Installation
