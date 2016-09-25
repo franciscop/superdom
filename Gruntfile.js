@@ -38,7 +38,7 @@ module.exports = function (grunt) {
               // })
               .replace(/;}/g, '}')
               ;
-          },
+          }
         }
       }
     },

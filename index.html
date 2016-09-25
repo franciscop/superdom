@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      /* To make them look the same */
+      a, b, i, strong, em {
+        margin: 0;
+        font-weight: normal;
+        font-style: normal;
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+    </main>
+      <div id="id1">Id 1</div>
+      <div id="id2">Id 2</div>
+      <div id="id3">Id 3</div>
+      <div id="id4">Id 4</div>
+
+      <hr />
+
+      <div class="class1">Class 1</div>
+      <div class="class2">Class 2</div>
+      <div class="class3">Class 3</div>
+      <div class="class4">Class 4</div>
+
+      <hr />
+
+      <div attr1>Attribute 1</div>
+      <div attr2>Attribute 2</div>
+      <div attr3>Attribute 3</div>
+      <div attr4>Attribute 4</div>
+
+      <hr />
+
+      <div id="sel1" class="sel1" sel1>Selector 1</div>
+      <div id="sel2" class="sel2" sel2>Selector 2</div>
+      <div id="sel3" class="sel3" sel3>Selector 3</div>
+      <div id="sel4" class="sel4" sel4>Selector 4</div>
+
+      <hr />
+
+      <b>Plain 1</b>
+      <i>Plain 2</i>
+      <strong>Plain 3</strong>
+      <em >Plain 4</em>
+
+      <hr>
+
+      <a class="a" bla="x">A</a>
+      <a class="b" bla="x">B</a>
+      <a class="c" bla="x">C</a>
+    <main>
+
+
+    <script src="dom.min.js"></script>
+    <script>
+
+
+      // dom.js; just use 'dom':
+      console.log(dom.id.id1);
+      dom.id.id2 = dom('<span>Generated properly</span>');
+      dom.id.id3 = '<span>This too!</span>';
+      delete dom.id.id4;
+
+      console.log(dom.class.class1);
+      dom.class.class2 = dom('<span>Generated properly</span>');
+      dom.class.class3 = '<span>This too!</span>';
+      delete dom.class.class4;
+
+      console.log(dom.attr.attr1);
+      dom.attr.attr2 = dom('<span>Generated properly</span>');
+      dom.attr.attr3 = '<span>This too!</span>';
+      delete dom.attr.attr4;
+
+      console.log(dom['#sel1.sel1[sel1]']);
+      dom['#sel2.sel2[sel2]'] = dom('<span>Generated properly</span>');
+      dom['#sel3.sel3[sel3]'] = '<span>This too!</span>';
+      delete dom['#sel4.sel4[sel4]'];
+
+      console.log(dom.b);
+      dom.i = dom('<span>Generated properly</span>');
+      dom.strong = '<span>This too!</span>';
+      delete dom.em;
+
+      console.log(dom.id.id1.html);
+      dom.a.html = 'Teeeesting';
+      dom.a.html = (value, i) => value + ' ' + i;
+
+      console.log(dom.id.id1.attr.id);
+      //dom.a.attr.class = x => x + 'y';
+      //dom.a.class = 'bla';
+      dom.a.class = 'bla';
+      console.log("Some bla?", dom.a.class.bla);
+      delete dom.a.class.bla;
+      console.log("Some bla?", dom.a.class.bla);
+      dom.a.class.bla = true;
+      console.log("Some bla?", dom.a.class.bla);
+      dom.a.class.bla = false;
+      console.log("Some bla?", dom.a.class.bla);
+      dom.a.attr.class = x => x + 'y';
+      console.log(dom.a);
+
+
+
+    </script>
+  </body>
+</html>

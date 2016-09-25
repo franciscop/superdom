@@ -1,5 +1,5 @@
 {
-  "name": "dom",
+  "name": "dom_js",
   "version": "0.1.0",
   "description": "Better and simpler DOM manipulation",
   "main": "dom.min.js",
