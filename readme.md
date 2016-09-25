@@ -1,4 +1,4 @@
-# dom.js
+# superdom.js
 
 Better and simpler ES6 DOM manipulation
 
