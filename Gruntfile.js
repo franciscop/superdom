@@ -4,19 +4,19 @@ module.exports = function (grunt) {
   grunt.initConfig({
     uglify: {
       options: {
-        banner: '/* dom.js ' + grunt.file.readJSON('package.json').version + ' https://github.com/franciscop/dom.js */\n'
+        banner: '/* superdom.js ' + grunt.file.readJSON('package.json').version + ' https://github.com/franciscop/superdom.js */\n'
       },
       my_target: {
         files: {
-          'dom.min.js': 'dom.js'
+          'superdom.min.js': 'superdom.js'
         }
       }
     },
 
     copy: {
       main: {
-        src: 'dom.js',
-        dest: 'dom.min.js',
+        src: 'superdom.js',
+        dest: 'superdom.min.js',
         options: {
           process: function (content, srcpath) {
             return content
@@ -56,7 +56,7 @@ module.exports = function (grunt) {
         files: [
           'package.js', // To bump versions
           'Gruntfile.js',
-          'dom.js',
+          'superdom.js',
           'test/test.js'
         ],
         tasks: ['default'],
@@ -70,7 +70,7 @@ module.exports = function (grunt) {
     bytesize: {
       all: {
         src: [
-          'dom.min.js'
+          'superdom.min.js'
         ]
       }
     }
