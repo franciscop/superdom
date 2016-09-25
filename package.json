@@ -1,0 +1,36 @@
+{
+  "name": "dom",
+  "version": "0.1.0",
+  "description": "Better and simpler DOM manipulation",
+  "main": "dom.min.js",
+  "dependencies": {},
+  "devDependencies": {
+    "grunt": "^1.0.1",
+    "grunt-bytesize": "^0.2.0",
+    "grunt-contrib-copy": "^1.0.0",
+    "grunt-contrib-uglify": "^2.0.0",
+    "grunt-contrib-watch": "^1.0.0",
+    "grunt-semistandard": "^1.0.6"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/franciscop/dom.js.git"
+  },
+  "keywords": [
+    "dom",
+    "manipulation",
+    "edit",
+    "add",
+    "remove",
+    "generate"
+  ],
+  "author": "Francisco Presencia Fandos <publicfrancisco@hotmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/franciscop/dom.js/issues"
+  },
+  "homepage": "https://github.com/franciscop/dom.js#readme"
+}
