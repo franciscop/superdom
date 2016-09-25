@@ -1,6 +1,6 @@
 {
   "name": "superdom",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Better and simpler DOM manipulation",
   "main": "dom.min.js",
   "dependencies": {},
@@ -17,7 +17,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/franciscop/dom.js.git"
+    "url": "git+https://github.com/franciscop/superdom.js.git"
   },
   "keywords": [
     "dom",
@@ -30,7 +30,7 @@
   "author": "Francisco Presencia Fandos <publicfrancisco@hotmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/franciscop/dom.js/issues"
+    "url": "https://github.com/franciscop/superdom.js/issues"
   },
-  "homepage": "https://github.com/franciscop/dom.js#readme"
+  "homepage": "https://github.com/franciscop/superdom.js#readme"
 }
