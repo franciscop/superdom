@@ -21,6 +21,7 @@ module.exports = function (grunt) {
           process: function (content, srcpath) {
             return content
               .replace(/\/\/[^\n]+/g, '')
+              .replace(/\/\*[^*]+\*\/\s+/, '')
               .replace(/\n[^\S]*/g, ' ')
               .replace(/\s?\=\>\s?/g, '=>')
               .replace(/\s?\{\s?/g, '{')
