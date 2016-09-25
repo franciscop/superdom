@@ -153,4 +153,5 @@ dom.a.attr.target = '_blank';
 var isOwnPage = el => /^https?\:\/\/mypage\.com/.test(el.getAttribute('href');
 dom.a.attr.target = (prev, i, element) => isOwnPage(element) ? '' : '_blank';
 ```
-gg
+
+More to come...
