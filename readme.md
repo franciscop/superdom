@@ -18,10 +18,10 @@ dom.a.attr.target = '_blank';
 
 ## Installation
 
-Download `dom.min.js` somewhere nice and include it:
+Download `superdom.min.js` somewhere nice and include it:
 
 ```html
-<script src="dom.min.js"></script>
+<script src="superdom.min.js"></script>
 ```
 
 
