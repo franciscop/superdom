@@ -21,11 +21,17 @@ Download `superdom.min.js` somewhere nice and include it:
 <script src="superdom.min.js"></script>
 ```
 
+Or use the CDN via unpkg.com:
+
+```html
+<script src="https://unpkg.com/superdom@0"></script>
+```
+
 
 
 ## Select
 
-To find **an array with the matched elements**, just get a property of *dom* with that selector:
+It always returns **an array with the matched elements**, just get a property of *dom* with that selector:
 
 ```js
 // Simple element selector
