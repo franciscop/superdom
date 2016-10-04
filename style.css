@@ -32,16 +32,32 @@ p {
   margin: 3px 0 15px;
 }
 
-pre {
+pre[class*="language-"] {
   color: #333;
   padding-right: 50px;
+  margin: 0;
 }
 
 a {
   display: inline-block;
   color: #fff;
-  box-shadow: 0 1px #fff;
-  margin-right: 15px;
+  /*box-shadow: 0 2px #fff;*/
+  border: 2px solid transparent;
+  padding: 3px 8px;
+  border-bottom: 2px solid #fff;
+  margin-right: 10px;
+}
+
+a:hover,
+a:focus {
+  /*box-shadow: 0 2px #fff, 0 -2px #fff, 2px 0 #fff;*/
+  outline: none;
+  border: 2px solid #fff;
+}
+
+a:active {
+  background: rgba(255, 255, 255, 1);
+  color: #333;
 }
 
 
@@ -104,7 +120,7 @@ code[class*="language-"]::selection, code[class*="language-"] ::selection {
 /* Code blocks */
 pre[class*="language-"] {
 	padding: 1em;
-	margin: .5em 0;
+	margin: 0;
 	overflow: auto;
 }
 

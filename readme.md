@@ -1,4 +1,4 @@
-# superdom.js
+# superdom.js ( http://localhost:8080/ )
 
 You have `dom`. It has all the DOM virtually within it. Use that power:
 
@@ -13,19 +13,14 @@ dom.a.attr.target = '_blank';
 > We are in pre-1.0.0 so things might change. Not compatible with [Internet Explorer and older Safari](http://caniuse.com/#feat=proxy)
 
 
-## Installation
+### Installation
 
-Download `superdom.min.js` somewhere nice and include it:
-
-```html
-<script src="superdom.min.js"></script>
-```
-
-Or use the CDN via unpkg.com:
+Simply use the CDN via unpkg.com:
 
 ```html
 <script src="https://unpkg.com/superdom@0"></script>
 ```
+
 
 
 
@@ -71,7 +66,7 @@ var link = dom('<a href="https://google.com/">Google</a>');
 
 
 
-# Replace html
+## Replace html
 
 Set a property to replace those elements in the DOM
 
