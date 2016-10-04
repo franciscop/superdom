@@ -2,9 +2,8 @@ body {
   margin: 0 auto;
   width: 100%;
   height: 100%;
-  /*background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAPCAYAAAA71pVKAAACdUlEQVQokVWPTY8UVRSG67d0dVVXTXfVvae6UQahnXvuR1X3KONXjApsTHQhECTGBYnCCAsNmmFAjdGJBhRJTHQU/+Djonvj4snJyXvyvDnZabnmr2LFn+MVp6MVz0cr/h73PB/3/Jv3/JNHTvPIH7nncaGclMoPpedRFcie5SuejQee5gO/j3qejhJPxolfx5HfisSTIvK4jJxMAt9VysNKOa6V+ztK9ks+8HPeczLq+Snv+TFPfF8kvi0iD4vIgyJwVHiOSs/XdeB+Hfiq9tydKtlxMfCoXHFcDByVA99MBr6cJO6VgcMqcFgnvqgTtyvHZ1PPrVngk1ngWuvJPq967lSJO1XPYdVzu07cqiOf7iQ+nkZuTBPXp5GPGs+HJvC+CVw2nrdEya7Oeq43PTdmPTdnAzd3EleniQ9miStN5N0m8nYbecNEDkzgFetZi2cQT3alTVxuE5faxKUm8l4TeWd7vDaeaDzeel4W5YIoFzrl/NzzUqdkb7aJ15rIxTay3wb2TWRtAtF4llY5J54XRVmIYy7K3DoWsiF7vU0ctIn9NtKbRDSRaDx7rXLOKC9Yz8IqIg7pHCIOK5uZHbSRV01kZSK9TQQTUeNZGmXXKgtR5qJI57BbjOzRyh7ZRZPYN4HBRqINm/9MYNdsGrtty7xz2G7vf4JsbQK9DQQbcBI4L4EzNiDW0xqltYqxHhHFisNsacWR9RLxElhK4Kx4FuKZ2cCO9dRWqcUzFU9jlUaU2ZapODLtAkvxnO0CIp6ZVSqrlKKUnWMiSiVKbZXKOqrtPhElW1rHrijzztN0nkqUUhxFp4zFUchGMJGtUNwmF+U/ThSQlDO8cSYAAAAASUVORK5CYII=");*/
   background-color: #13254d;
-  background-image: url('./back.png');
+  background-image: url('/web/back.png');
   background-size: cover;
   background-position: center center;
   color: #fff;
@@ -12,7 +11,7 @@ body {
 
 main {
   position: absolute;
-  width: 95%;
+  width: calc(100% - 40px);
   max-width: 1000px;
   margin: 0 auto;
   top: 50%;
@@ -41,7 +40,6 @@ pre[class*="language-"] {
 a {
   display: inline-block;
   color: #fff;
-  /*box-shadow: 0 2px #fff;*/
   border: 2px solid transparent;
   padding: 3px 8px;
   border-bottom: 2px solid #fff;
@@ -50,7 +48,6 @@ a {
 
 a:hover,
 a:focus {
-  /*box-shadow: 0 2px #fff, 0 -2px #fff, 2px 0 #fff;*/
   outline: none;
   border: 2px solid #fff;
 }
@@ -120,7 +117,7 @@ code[class*="language-"]::selection, code[class*="language-"] ::selection {
 /* Code blocks */
 pre[class*="language-"] {
 	padding: 1em;
-	margin: 0;
+	margin: .5em 0;
 	overflow: auto;
 }
 
@@ -210,7 +207,6 @@ pre[class*="language-"] {
 
 
 pre[class*="language-"] {
-  margin-top: 0;
   padding: .5em .8em;
   font-size: 1.2em;
   line-height: 1.3;
