@@ -10,7 +10,7 @@ var links = dom.a;
 dom.a.attr.target = '_blank';
 ```
 
-> Not compatible with Internet Explorer and older Safari http://caniuse.com/#feat=proxy
+> We are in pre-1.0.0 so things might change. Not compatible with [Internet Explorer and older Safari](http://caniuse.com/#feat=proxy)
 
 
 ## Installation
@@ -41,7 +41,7 @@ var allLinks = dom.a;
 var importantLinks = dom['a.important'];
 ```
 
-There are also some predetermined elements, such as `id`, `class` and `attr` that can be used:
+There are also some predetermined elements, such as `id`, `class` and `attr` that can be used for selection:
 
 ```js
 // Select HTML Elements by id:
@@ -52,13 +52,13 @@ var buttons = dom.class.button;
 
 // or by attribute:
 var targeted = dom.attr.target;
-var targeted = dom.attr.target._blank;
+var targeted = dom.attr.target._blank;  // Not yet
 ```
 
 
 ## Generate
 
-Use it as a function or a tagged template literal to generate DOM fragments:
+Use it as a function or a tagged template literal to generate a DOM fragments:
 
 ```js
 // Not a typo; tagged template literals
@@ -91,7 +91,7 @@ dom.class.tableofcontents = `
 `;
 ```
 
-> This will replace the matched elements; to set the inner html, just use the `.html` property as seen in the next chapter
+> This will replace the matched elements; to set the inner html (more common), just use the `.html` property as seen in the Attributes chapter
 
 
 
@@ -111,12 +111,11 @@ var urls = dom.a.href;
 
 // Get an array of the h2 contents
 var h2s = dom.h2.html;   // Alias of innerHTML
-
 ```
 
+
+
 ## Set attributes
-
-
 
 ```js
 dom.class.tableofcontents = `

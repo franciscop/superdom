@@ -11,7 +11,7 @@ var dom = new Proxy((() => {
   var attributes = {
     get: (els, key) => els.map(el => el.getAttribute(key)),
     set: (els, key, value) => !els.forEach((el, i) => {
-      var auto = typeof value === 'string' ? () => value : value;
+      var auto = !(value instanceof Function) ? () => value : value;
       el.setAttribute(key, auto(el.getAttribute(key) || '', i, el));
     }),
     deleteProperty: (els, key) => !els.forEach(el => el.removeAttribute(key))
@@ -25,25 +25,25 @@ var dom = new Proxy((() => {
       if (key in attr_alias) key = attr_alias[key];
 
       if (key in dom_proxies) return new Proxy(els, dom_proxies[key]);
-      return els.map(el => el[key]);
+      return els.map(el => el.getAttribute(key) || el[key]);
     },
     set: (els, key, value) => {
       if (els[key]) return els[key]; // keep array functions
       if (!els.length) return;
       if (key in attr_alias) key = attr_alias[key];
 
-      var auto = typeof value === 'string' ? v => value : value;
+      var auto = !(value instanceof Function) ? () => value : value;
       var setEach = (el, i) => el[key] = auto(el[key], i);
       if (key === 'class') setEach = (el, i) => el.classList.add(value);
-      els.forEach(setEach);
+
+      return !els.forEach(setEach);
     },
     deleteProperty: (els, key) => {
       if (els[key]) return els[key]; // keep array functions
       if (!els.length) return;
       if (key in attr_alias) key = attr_alias[key];
 
-      els.forEach(el => el[key] = '');
-      return true;
+      return !els.forEach(el => el[key] = '');
     }
   };
 

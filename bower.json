@@ -1,6 +1,6 @@
 {
   "name": "superdom",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "Better and simpler DOM manipulation",
   "main": "superdom.min.js",
   "authors": [

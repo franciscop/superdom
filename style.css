@@ -1,0 +1,201 @@
+body {
+  margin: 0 auto;
+  width: 100%;
+  height: 100%;
+  /*background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAPCAYAAAA71pVKAAACdUlEQVQokVWPTY8UVRSG67d0dVVXTXfVvae6UQahnXvuR1X3KONXjApsTHQhECTGBYnCCAsNmmFAjdGJBhRJTHQU/+Djonvj4snJyXvyvDnZabnmr2LFn+MVp6MVz0cr/h73PB/3/Jv3/JNHTvPIH7nncaGclMoPpedRFcie5SuejQee5gO/j3qejhJPxolfx5HfisSTIvK4jJxMAt9VysNKOa6V+ztK9ks+8HPeczLq+Snv+TFPfF8kvi0iD4vIgyJwVHiOSs/XdeB+Hfiq9tydKtlxMfCoXHFcDByVA99MBr6cJO6VgcMqcFgnvqgTtyvHZ1PPrVngk1ngWuvJPq967lSJO1XPYdVzu07cqiOf7iQ+nkZuTBPXp5GPGs+HJvC+CVw2nrdEya7Oeq43PTdmPTdnAzd3EleniQ9miStN5N0m8nYbecNEDkzgFetZi2cQT3alTVxuE5faxKUm8l4TeWd7vDaeaDzeel4W5YIoFzrl/NzzUqdkb7aJ15rIxTay3wb2TWRtAtF4llY5J54XRVmIYy7K3DoWsiF7vU0ctIn9NtKbRDSRaDx7rXLOKC9Yz8IqIg7pHCIOK5uZHbSRV01kZSK9TQQTUeNZGmXXKgtR5qJI57BbjOzRyh7ZRZPYN4HBRqINm/9MYNdsGrtty7xz2G7vf4JsbQK9DQQbcBI4L4EzNiDW0xqltYqxHhHFisNsacWR9RLxElhK4Kx4FuKZ2cCO9dRWqcUzFU9jlUaU2ZapODLtAkvxnO0CIp6ZVSqrlKKUnWMiSiVKbZXKOqrtPhElW1rHrijzztN0nkqUUhxFp4zFUchGMJGtUNwmF+U/ThSQlDO8cSYAAAAASUVORK5CYII=");*/
+  background-color: #13254d;
+  background-image: url('./back.png');
+  background-size: cover;
+  background-position: center center;
+  color: #fff;
+}
+
+main {
+  position: absolute;
+  width: 95%;
+  max-width: 1000px;
+  margin: 0 auto;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+h1 {
+  padding: 0;
+}
+
+.flex {
+  align-items: center;
+}
+
+p {
+  margin: 3px 0 15px;
+}
+
+pre {
+  color: #333;
+  padding-right: 50px;
+}
+
+a {
+  display: inline-block;
+  color: #fff;
+  box-shadow: 0 1px #fff;
+  margin-right: 15px;
+}
+
+
+
+
+
+
+
+
+/* Prism */
+/* http://prismjs.com/download.html?themes=prism&languages=markup+clike+javascript */
+/**
+ * prism.js default theme for JavaScript, CSS and HTML
+ * Based on dabblet (http://dabblet.com)
+ * @author Lea Verou
+ */
+
+code[class*="language-"],
+pre[class*="language-"] {
+	color: black;
+	text-shadow: 0 1px white;
+	font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+	direction: ltr;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+	word-wrap: normal;
+	line-height: 1.5;
+
+	-moz-tab-size: 4;
+	-o-tab-size: 4;
+	tab-size: 4;
+
+	-webkit-hyphens: none;
+	-moz-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+}
+
+pre[class*="language-"]::-moz-selection, pre[class*="language-"] ::-moz-selection,
+code[class*="language-"]::-moz-selection, code[class*="language-"] ::-moz-selection {
+	text-shadow: none;
+	background: #b3d4fc;
+}
+
+pre[class*="language-"]::selection, pre[class*="language-"] ::selection,
+code[class*="language-"]::selection, code[class*="language-"] ::selection {
+	text-shadow: none;
+	background: #b3d4fc;
+}
+
+@media print {
+	code[class*="language-"],
+	pre[class*="language-"] {
+		text-shadow: none;
+	}
+}
+
+/* Code blocks */
+pre[class*="language-"] {
+	padding: 1em;
+	margin: .5em 0;
+	overflow: auto;
+}
+
+:not(pre) > code[class*="language-"],
+pre[class*="language-"] {
+	background: #f5f2f0;
+}
+
+/* Inline code */
+:not(pre) > code[class*="language-"] {
+	padding: .1em;
+	border-radius: .3em;
+	white-space: normal;
+}
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+	color: slategray;
+}
+
+.token.punctuation {
+	color: #999;
+}
+
+.namespace {
+	opacity: .7;
+}
+
+.token.property,
+.token.tag,
+.token.boolean,
+.token.number,
+.token.constant,
+.token.symbol,
+.token.deleted {
+	color: #905;
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.inserted {
+	color: #690;
+}
+
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string,
+.style .token.string {
+	color: #a67f59;
+}
+
+.token.atrule,
+.token.attr-value,
+.token.keyword {
+	color: #07a;
+}
+
+.token.function {
+	color: #DD4A68;
+}
+
+.token.regex,
+.token.important,
+.token.variable {
+	color: #e90;
+}
+
+.token.important,
+.token.bold {
+	font-weight: bold;
+}
+.token.italic {
+	font-style: italic;
+}
+
+.token.entity {
+	cursor: help;
+}
+
+
+
+
+pre[class*="language-"] {
+  margin-top: 0;
+  padding: .5em .8em;
+  font-size: 1.2em;
+  line-height: 1.3;
+}
