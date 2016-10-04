@@ -21,6 +21,7 @@ Simply use the CDN via unpkg.com:
 <script src="https://unpkg.com/superdom@0"></script>
 ```
 
+Or use [npm](https://www.npmjs.com/package/superdom) or bower: `npm|bower install superdom`.
 
 
 
