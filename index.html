@@ -1,18 +1,78 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/picnicss/6.0.0/plugins.min.css" />
     <style>
-      /* To make them look the same */
-      a, b, i, strong, em {
-        margin: 0;
-        font-weight: normal;
-        font-style: normal;
-        display: block;
+      nav {
+        display: none;
+      }
+      body {
+        margin: 0 auto;
+      }
+      main {
+        width: 100%;
+        max-width: 900px;
+      }
+      .hero {
+        width: 100%;
+        height: 100%;
+        background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAPCAYAAAA71pVKAAACdUlEQVQokVWPTY8UVRSG67d0dVVXTXfVvae6UQahnXvuR1X3KONXjApsTHQhECTGBYnCCAsNmmFAjdGJBhRJTHQU/+Djonvj4snJyXvyvDnZabnmr2LFn+MVp6MVz0cr/h73PB/3/Jv3/JNHTvPIH7nncaGclMoPpedRFcie5SuejQee5gO/j3qejhJPxolfx5HfisSTIvK4jJxMAt9VysNKOa6V+ztK9ks+8HPeczLq+Snv+TFPfF8kvi0iD4vIgyJwVHiOSs/XdeB+Hfiq9tydKtlxMfCoXHFcDByVA99MBr6cJO6VgcMqcFgnvqgTtyvHZ1PPrVngk1ngWuvJPq967lSJO1XPYdVzu07cqiOf7iQ+nkZuTBPXp5GPGs+HJvC+CVw2nrdEya7Oeq43PTdmPTdnAzd3EleniQ9miStN5N0m8nYbecNEDkzgFetZi2cQT3alTVxuE5faxKUm8l4TeWd7vDaeaDzeel4W5YIoFzrl/NzzUqdkb7aJ15rIxTay3wb2TWRtAtF4llY5J54XRVmIYy7K3DoWsiF7vU0ctIn9NtKbRDSRaDx7rXLOKC9Yz8IqIg7pHCIOK5uZHbSRV01kZSK9TQQTUeNZGmXXKgtR5qJI57BbjOzRyh7ZRZPYN4HBRqINm/9MYNdsGrtty7xz2G7vf4JsbQK9DQQbcBI4L4EzNiDW0xqltYqxHhHFisNsacWR9RLxElhK4Kx4FuKZ2cCO9dRWqcUzFU9jlUaU2ZapODLtAkvxnO0CIp6ZVSqrlKKUnWMiSiVKbZXKOqrtPhElW1rHrijzztN0nkqUUhxFp4zFUchGMJGtUNwmF+U/ThSQlDO8cSYAAAAASUVORK5CYII=");
+        background-size: cover;
+        color: #fff;
+      }
+      h1 {
+        padding: 0;
+      }
+      .hero .content {
+        position: absolute;
+        width: 95%;
+        max-width: 1000px;
+        margin: 0 auto;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+      .hero p {
+        margin: 3px 0 15px;
+      }
+      .hero pre {
+        color: #333;
+        padding-right: 50px;
+      }
+      .hero a {
+        display: inline-block;
+        color: #fff;
+        box-shadow: 0 1px #fff;
+        margin-right: 15px;
       }
     </style>
   </head>
   <body>
-    </main>
+    <nav></nav>
+    <section class="hero">
+      <div class="content">
+        <div class="flex">
+          <div class="full half-800">
+            <h1>Superdom<sub>.js</sub></h1>
+            <p>Manipulate the DOM like it's 2016</p>
+            <a href="#" class="pseudo">CDN</a>
+            <a href="#" class="pseudo">Download</a>
+            <a href="#" class="pseudo">Github</a>
+          </div>
+          <div class="full half-800">
+            <pre>// Fetch all of the link's href
+var links = dom.a.href;
+
+// Set them targets to a new page
+dom.a.attr.target = '_blank';
+
+// Manipulate them without nasty loops
+dom.class.button.html = 'I am a button'</pre>
+          </div>
+        </div>
+      </div>
+    </section>
+    <main>
       <div id="id1">Id 1</div>
       <div id="id2">Id 2</div>
       <div id="id3">Id 3</div>
@@ -51,56 +111,56 @@
       <a class="a" bla="x">A</a>
       <a class="b" bla="x">B</a>
       <a class="c" bla="x">C</a>
-    <main>
+    </main>
 
 
     <script src="superdom.min.js"></script>
     <script>
 
 
-      // dom.js; just use 'dom':
-      console.log(dom.id.id1);
-      dom.id.id2 = dom('<span>Generated properly</span>');
-      dom.id.id3 = '<span>This too!</span>';
-      delete dom.id.id4;
-
-      console.log(dom.class.class1);
-      dom.class.class2 = dom('<span>Generated properly</span>');
-      dom.class.class3 = '<span>This too!</span>';
-      delete dom.class.class4;
-
-      console.log(dom.attr.attr1);
-      dom.attr.attr2 = dom('<span>Generated properly</span>');
-      dom.attr.attr3 = '<span>This too!</span>';
-      delete dom.attr.attr4;
-
-      console.log(dom['#sel1.sel1[sel1]']);
-      dom['#sel2.sel2[sel2]'] = dom('<span>Generated properly</span>');
-      dom['#sel3.sel3[sel3]'] = '<span>This too!</span>';
-      delete dom['#sel4.sel4[sel4]'];
-
-      console.log(dom.b);
-      dom.i = dom('<span>Generated properly</span>');
-      dom.strong = '<span>This too!</span>';
-      delete dom.em;
-
-      console.log(dom.id.id1.html);
-      dom.a.html = 'Teeeesting';
-      dom.a.html = (value, i) => value + ' ' + i;
-
-      console.log(dom.id.id1.attr.id);
-      //dom.a.attr.class = x => x + 'y';
-      //dom.a.class = 'bla';
-      dom.a.class = 'bla';
-      console.log("Some bla?", dom.a.class.bla);
-      delete dom.a.class.bla;
-      console.log("Some bla?", dom.a.class.bla);
-      dom.a.class.bla = true;
-      console.log("Some bla?", dom.a.class.bla);
-      dom.a.class.bla = false;
-      console.log("Some bla?", dom.a.class.bla);
-      dom.a.attr.class = x => x + 'y';
-      console.log(dom.a);
+      // // dom.js; just use 'dom':
+      // console.log(dom.id.id1);
+      // dom.id.id2 = dom('<span>Generated properly</span>');
+      // dom.id.id3 = '<span>This too!</span>';
+      // delete dom.id.id4;
+      //
+      // console.log(dom.class.class1);
+      // dom.class.class2 = dom('<span>Generated properly</span>');
+      // dom.class.class3 = '<span>This too!</span>';
+      // delete dom.class.class4;
+      //
+      // console.log(dom.attr.attr1);
+      // dom.attr.attr2 = dom('<span>Generated properly</span>');
+      // dom.attr.attr3 = '<span>This too!</span>';
+      // delete dom.attr.attr4;
+      //
+      // console.log(dom['#sel1.sel1[sel1]']);
+      // dom['#sel2.sel2[sel2]'] = dom('<span>Generated properly</span>');
+      // dom['#sel3.sel3[sel3]'] = '<span>This too!</span>';
+      // delete dom['#sel4.sel4[sel4]'];
+      //
+      // console.log(dom.b);
+      // dom.i = dom('<span>Generated properly</span>');
+      // dom.strong = '<span>This too!</span>';
+      // delete dom.em;
+      //
+      // console.log(dom.id.id1.html);
+      // dom.a.html = 'Teeeesting';
+      // dom.a.html = (value, i) => value + ' ' + i;
+      //
+      // console.log(dom.id.id1.attr.id);
+      // //dom.a.attr.class = x => x + 'y';
+      // //dom.a.class = 'bla';
+      // dom.a.class = 'bla';
+      // console.log("Some bla?", dom.a.class.bla);
+      // delete dom.a.class.bla;
+      // console.log("Some bla?", dom.a.class.bla);
+      // dom.a.class.bla = true;
+      // console.log("Some bla?", dom.a.class.bla);
+      // dom.a.class.bla = false;
+      // console.log("Some bla?", dom.a.class.bla);
+      // dom.a.attr.class = x => x + 'y';
+      // console.log(dom.a);
 
 
 

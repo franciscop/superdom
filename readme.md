@@ -44,7 +44,7 @@ var importantLinks = dom['a.important'];
 There are also some predetermined elements, such as `id`, `class` and `attr` that can be used:
 
 ```js
-// Get them by id:
+// Select HTML Elements by id:
 var main = dom.id.main;
 
 // by class:
@@ -52,8 +52,8 @@ var buttons = dom.class.button;
 
 // or by attribute:
 var targeted = dom.attr.target;
+var targeted = dom.attr.target._blank;
 ```
-
 
 
 ## Generate
@@ -70,7 +70,8 @@ var link = dom('<a href="https://google.com/">Google</a>');
 
 
 
-## Replace
+
+# Replace html
 
 Set a property to replace those elements in the DOM
 
@@ -89,6 +90,48 @@ dom.class.tableofcontents = `
   </ul>
 `;
 ```
+
+> This will replace the matched elements; to set the inner html, just use the `.html` property as seen in the next chapter
+
+
+
+
+## Attributes
+
+You can easily manipulate attributes right from the `dom` node. `html` and `text`, aliases for `innerHTML` and `textContent` share the syntax with the attributes.
+
+
+### Get attributes
+
+The fetching will always **return an array** with the element for each of the matched nodes (or undefined if not there):
+
+```js
+// Retrieve all the urls from the page
+var urls = dom.a.href;
+
+// Get an array of the h2 contents
+var h2s = dom.h2.html;   // Alias of innerHTML
+
+```
+
+## Set attributes
+
+
+
+```js
+dom.class.tableofcontents = `
+  <ul class="tableofcontents">
+    ${dom.h2.map(h2 => `
+      <li>
+        <a href="#${h2.id}">
+          ${h2.innerHTML}
+        </a>
+      </li>
+    `).join('')}
+  </ul>
+`;
+```
+
 
 
 ## Delete

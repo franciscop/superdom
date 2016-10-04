@@ -9,7 +9,7 @@ var dom = new Proxy((() => {
   };
 
   var attributes = {
-    get: (els, key) => els[0].getAttribute(key),
+    get: (els, key) => els.map(el => el.getAttribute(key)),
     set: (els, key, value) => !els.forEach((el, i) => {
       var auto = typeof value === 'string' ? () => value : value;
       el.setAttribute(key, auto(el.getAttribute(key) || '', i, el));
@@ -25,7 +25,7 @@ var dom = new Proxy((() => {
       if (key in attr_alias) key = attr_alias[key];
 
       if (key in dom_proxies) return new Proxy(els, dom_proxies[key]);
-      return els[0][key];
+      return els.map(el => el[key]);
     },
     set: (els, key, value) => {
       if (els[key]) return els[key]; // keep array functions
