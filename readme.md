@@ -1,4 +1,4 @@
-# superdom.js ( http://localhost:8080/ )
+# superdom.js
 
 You have `dom`. It has all the DOM virtually within it. Use that power:
 
