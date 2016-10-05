@@ -7,7 +7,7 @@ You have `dom`. It has all the DOM virtually within it. Use that power:
 var links = dom.a;
 
 // Make the links open in a new tab
-dom.a.attr.target = '_blank';
+dom.a.target = '_blank';
 ```
 
 > We are in pre-1.0.0 so things might change. Not compatible with [Internet Explorer and older Safari](http://caniuse.com/#feat=proxy)
@@ -93,10 +93,20 @@ dom.class.tableofcontents = `
 
 
 
+## Delete elements
+
+Delete a piece of the DOM
+
+```js
+// Delete all of the elements with the class .google
+delete dom.class.google;   // Is this an ad-block rule?
+```
+
+
 
 ## Attributes
 
-You can easily manipulate attributes right from the `dom` node. `html` and `text`, aliases for `innerHTML` and `textContent` share the syntax with the attributes. Also note that `class` behaves differently as explained below.
+You can easily manipulate attributes right from the `dom` node. There are some aliases that share the syntax of the attributes such as `html` and `text` (aliases for `innerHTML` and `textContent`). There are others that travel through the dom such as `parent` (alias for parentNode) and `children`. Finally, `class` behaves differently as explained below.
 
 
 
@@ -201,14 +211,6 @@ dom.a.class.test = false;    // #class-make-false
 
 
 
-## Delete
-
-Or just delete it to delete that in the DOM:
-
-```js
-// Delete all of the .google classes
-delete dom.class.google;   // Is this an ad-block rule?
-```
 
 
 
