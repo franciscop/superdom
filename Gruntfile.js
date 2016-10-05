@@ -47,7 +47,7 @@ module.exports = function (grunt) {
     semistandard: {
       app: {
         src: [
-          '!./test'
+          'superdom.js'
         ]
       }
     },
@@ -83,6 +83,6 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-bytesize');
 
   grunt.registerTask('build', ['copy', 'bytesize']);
-  //grunt.registerTask('test', ['semistandard']);
-  grunt.registerTask('default', ['build', 'bytesize']);
+  grunt.registerTask('test', ['semistandard']);
+  grunt.registerTask('default', ['test', 'build', 'bytesize']);
 };

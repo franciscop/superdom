@@ -13,14 +13,12 @@ var dom = new Proxy((() => {
       ? lists[key]
       : key in specialClasses
         ? specialClasses[key](lists)
-        : lists.filter(list => list.includes(key)).length > 0
-    ,
+        : lists.filter(list => list.includes(key)).length > 0,
     // Set or remove a specific class
     set: (lists, key, value) =>
       !lists._.ref.forEach(el =>
         el.classList[value ? 'add' : 'remove'](key)
-      )
-    ,
+      ),
     // Remove a specific class
     deleteProperty: (lists, key) =>
       !lists._.forEach(el =>
@@ -36,8 +34,6 @@ var dom = new Proxy((() => {
     }),
     deleteProperty: (els, key) => !els.forEach(el => el.removeAttribute(key))
   };
-
-
 
   // GET dom.a.html; SET dom.a.html = 5; DELETE dom.a.html
   var dom_handler = {
@@ -76,10 +72,11 @@ var dom = new Proxy((() => {
       var auto = !(value instanceof Function) ? () => value : value;
       var setEach = (el, i) => {
         if (key in el) {
-          return el[key] = auto(el[key], i);
+          el[key] = auto(el[key], i);
+          return;
         }
         return el.setAttribute(key, auto(el[key], i));
-      }
+      };
       if (key === 'class') setEach = (el, i) => el.classList.add(value);
 
       return !els.forEach(setEach);
@@ -97,7 +94,7 @@ var dom = new Proxy((() => {
   var initial = html => {
     var type = /^\s*<t(h|r|d)/.test(html) ? 'table' : 'div';
     var container = document.createElement(type);
-    container.innerHTML = html;
+    container.innerHTML = html.replace(/^\s*/, '').replace(/\s*$/, '');
     return Array.from(container.childNodes);
   };
 
@@ -112,16 +109,12 @@ var dom = new Proxy((() => {
         return frag;
       }, document.createDocumentFragment());
     }
-    //nodes.forEach(node => node.parentNode.replaceChild(value, node));
-
     var auto = !(value instanceof Function)
       ? node => value : node => dom(value(node))[0];
-    console.log("Auto:", auto(value));
     nodes.forEach(node => node.parentNode.replaceChild(auto(node), node));
     return true;
   };
 
-  // var as = dom.a
   initial.get = (base, key) => {
     var toReturn;
     switch (key) {
@@ -164,8 +157,9 @@ var dom = new Proxy((() => {
   var recursive = {
     parentNode: (all, el) => {
       var parent = el.parentNode;
-      if (parent.nodeName === '#document')
+      if (parent.nodeName === '#document') {
         return all;
+      }
       return all.concat(parent);
     },
     children: (all, el) => all.concat(Array.from(el.children))
