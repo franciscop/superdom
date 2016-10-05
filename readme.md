@@ -64,18 +64,8 @@ var list = dom`<a href="https://google.com/">Google</a>`;
 
 // It is the same as
 var link = dom('<a href="https://google.com/">Google</a>');
-```
 
-
-
-
-## Replace html
-
-Set a property to replace those elements in the DOM
-
-```js
-dom['a.google'] = '<a href="https://google.com>">Google</a>';
-
+// Or just use the string
 dom.class.tableofcontents = `
   <ul class="tableofcontents">
     ${dom.h2.map(h2 => `
@@ -87,6 +77,17 @@ dom.class.tableofcontents = `
     `).join('')}
   </ul>
 `;
+```
+
+
+
+
+## Replace html
+
+Set a property to replace those elements in the DOM
+
+```js
+dom['a.google'] = '<a href="https://google.com>">Google</a>';
 ```
 
 > This will replace the matched elements; to set the inner html (more common), just use the `.html` property as seen in the Attributes chapter
