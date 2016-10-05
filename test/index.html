@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Tests for Superdom</title>
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <link href="vendor/mocha.css" media="all" rel="stylesheet">
+    <style>
+        #demo { display: none; }
+
+        #mocha .test.pass::before {
+          font-size: inherit;
+        }
+
+        #mocha-stats {
+          top: 70px;
+        }
+
+        @media (max-width:60em) {
+          #mocha-stats {
+            position: static;
+          }
+          body {
+            padding: 10px 20px;
+          }
+        }
+    </style>
+  </head>
+
+  <body>
+    <main class="test">
+      <section>
+        <h1>Tests for Superdom</h1>
+
+        <p class="noserver"></p>
+
+        <div id="mocha"></div>
+
+        <div id="messages"></div>
+
+        <div id="fixtures"></div>
+
+
+        <div class="demo" id="demo">
+          <div class="base" id="base">
+            <ul>
+              <li><a class="hello world" id="world" href="#1">Hello world</a></li>
+              <li><a href="#2">Hello world</a></li>
+              <li><a href="#3">Hello world</a></li>
+            </ul>
+
+            <div class="insides">a <span>thing</span></div>
+
+            <form action="/test" class="login" method="post">
+              <input name="name" value="John">
+              <input name="email" required="">
+              <input>
+              <input name="other" type="checkbox">
+              <input type="submit" value="Send!">
+            </form>
+
+            <form class="clone">
+              <input type="text">
+              <input type="checkbox">
+              <input type="radio">
+              <select name="options">
+                <option selected value="a">A</option>
+                <option value="b">B</option>
+                <option value="c">C</option>
+              </select>
+              <textarea></textarea>
+            </form>
+
+            <div class="destination"></div>
+
+            <p>Lorem <em>ipsum</em></p>
+          </div>
+
+          <table class="performance">
+            <tr><th>Test 1</th><th>Test 2</th><th>Test 3</th><th>Test 4</th></tr>
+          </table>
+
+          <table class="tbl"></table>
+        </div>
+      </section>
+    </main>
+    <script src="vendor/mocha.js"></script>
+    <script src="vendor/chai.js"></script>
+    <script src="vendor/sinon.js"></script>
+    <script src="jquery.js"></script>
+    <script src="../superdom.js"></script>
+    <script>
+      mocha.setup('bdd');
+      var base = $("#base");
+    </script>
+    <script src="test.js"></script>
+    <script>
+      if (window.mochaPhantomJS) { mochaPhantomJS.run(); }
+      else { mocha.run(); }
+    </script>
+    <script src="//localhost:35729/livereload.js"></script>
+  </body>
+</html>

@@ -1,11 +1,31 @@
 /*eslint padded-blocks: 0*/
 var dom = new Proxy((() => {
 
+  var specialClasses = {
+    _flat: lists => [].concat.apply([], lists),
+    _text: lists => [].concat.apply([], lists).join(' ')
+  };
+
   // GET dom.a.class.bla; SET dom.a.class.bla = true; DELETE dom.a.class.bla
   var classes = {
-    get: (els, key) => els.filter(el => el.classList.contains(key)).length > 0,
-    set: (els, key, value) => !els.forEach(el => el.classList[value ? 'add' : 'remove'](key)),
-    deleteProperty: (els, key) => !els.forEach(el => el.classList.remove(key))
+    // Get whether a specific class is set or not
+    get: (lists, key) => key in lists
+      ? lists[key]
+      : key in specialClasses
+        ? specialClasses[key](lists)
+        : lists.filter(list => list.includes(key)).length > 0
+    ,
+    // Set or remove a specific class
+    set: (lists, key, value) =>
+      !lists._.ref.forEach(el =>
+        el.classList[value ? 'add' : 'remove'](key)
+      )
+    ,
+    // Remove a specific class
+    deleteProperty: (lists, key) =>
+      !lists._.forEach(el =>
+        el.classList.remove(key)
+      )
   };
 
   var attributes = {
@@ -17,6 +37,8 @@ var dom = new Proxy((() => {
     deleteProperty: (els, key) => !els.forEach(el => el.removeAttribute(key))
   };
 
+
+
   // GET dom.a.html; SET dom.a.html = 5; DELETE dom.a.html
   var dom_handler = {
     get: (els, key) => {
@@ -24,8 +46,27 @@ var dom = new Proxy((() => {
       if (!els.length) return;
       if (key in attr_alias) key = attr_alias[key];
 
-      if (key in dom_proxies) return new Proxy(els, dom_proxies[key]);
-      return els.map(el => el.getAttribute(key) || el[key]);
+      if (key in dom_proxies) {
+        if (key === 'class') {
+          var parts = els.map(el => Array.from(el.classList));
+          parts._ = { ref: els };
+          return new Proxy(parts, dom_proxies[key]);
+        }
+        return new Proxy(els, dom_proxies[key]);
+      }
+
+      if (key in recursive) {
+        // Make it recursive again
+        return new Proxy(els.reduce(recursive[key], []), dom_handler);
+      }
+
+      var attrs = els.map(el => el.getAttribute(key) || el[key]);
+      attrs._ = { ref: els };
+      return new Proxy(attrs, {
+        get: (list, key) => key in list
+          ? list[key]
+          : list.includes(key)
+      });
     },
     set: (els, key, value) => {
       if (els[key]) return els[key]; // keep array functions
@@ -33,9 +74,15 @@ var dom = new Proxy((() => {
       if (key in attr_alias) key = attr_alias[key];
 
       var auto = !(value instanceof Function) ? () => value : value;
-      var setEach = (el, i) => el[key] = auto(el[key], i);
+      var setEach = (el, i) => {
+        if (key in el) {
+          return el[key] = auto(el[key], i);
+        }
+        return el.setAttribute(key, auto(el[key], i));
+      }
       if (key === 'class') setEach = (el, i) => el.classList.add(value);
 
+      console.log(key, value instanceof Function);
       return !els.forEach(setEach);
     },
     deleteProperty: (els, key) => {
@@ -70,6 +117,7 @@ var dom = new Proxy((() => {
     return true;
   };
 
+  // var as = dom.a
   initial.get = (base, key) => {
     var toReturn;
     switch (key) {
@@ -108,7 +156,22 @@ var dom = new Proxy((() => {
     attr: attributes,
     class: classes
   };
-  var attr_alias = { html: 'innerHTML' };
+
+  var recursive = {
+    parentNode: (all, el) => {
+      var parent = el.parentNode;
+      if (parent.nodeName === '#document')
+        return all;
+      return all.concat(parent);
+    },
+    children: (all, el) => all.concat(Array.from(el.children))
+  };
+
+  var attr_alias = {
+    html: 'innerHTML',
+    text: 'textContent',
+    parent: 'parentNode'
+  };
 
   return initial;
 })(), {

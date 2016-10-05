@@ -58,7 +58,7 @@ module.exports = function (grunt) {
           'package.js', // To bump versions
           'Gruntfile.js',
           'superdom.js',
-          'test/test.js'
+          'test/**/*'
         ],
         tasks: ['default'],
         options: {
@@ -83,6 +83,6 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-bytesize');
 
   grunt.registerTask('build', ['copy', 'bytesize']);
-  grunt.registerTask('test', ['semistandard']);
-  grunt.registerTask('default', ['build', 'test', 'bytesize']);
+  //grunt.registerTask('test', ['semistandard']);
+  grunt.registerTask('default', ['build', 'bytesize']);
 };
