@@ -147,9 +147,15 @@ describe("dom[selector][attribute]", function() {
     expect(dom.class.insides.text[0]).to.deep.equal('a thing');
   });
 
+  it("#attr-alias can change the html of .insides", function(){
+    dom.class.insides = '<div class="insides">I am inside</div>';
+    expect($('.insides').html()).to.equal('I am inside');
+    dom.class.insides = el => '<div class="insides">me too</div>';
+    expect($('.insides').html()).to.equal('me too');
+  });
+
   it("#attr-alias travel one level up", function(){
     expect(dom.id.base.parent.id[0]).to.equal('demo');
-    expect(dom.class.insides.text[0]).to.deep.equal('a thing');
   });
 
   it("#attr-alias there's a limit up", function(){

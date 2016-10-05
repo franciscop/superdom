@@ -82,7 +82,6 @@ var dom = new Proxy((() => {
       }
       if (key === 'class') setEach = (el, i) => el.classList.add(value);
 
-      console.log(key, value instanceof Function);
       return !els.forEach(setEach);
     },
     deleteProperty: (els, key) => {
@@ -113,7 +112,12 @@ var dom = new Proxy((() => {
         return frag;
       }, document.createDocumentFragment());
     }
-    nodes.forEach(node => node.parentNode.replaceChild(value, node));
+    //nodes.forEach(node => node.parentNode.replaceChild(value, node));
+
+    var auto = !(value instanceof Function)
+      ? node => value : node => dom(value(node))[0];
+    console.log("Auto:", auto(value));
+    nodes.forEach(node => node.parentNode.replaceChild(auto(node), node));
     return true;
   };
 
