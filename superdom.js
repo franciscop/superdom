@@ -94,7 +94,7 @@ var dom = new Proxy((() => {
   var initial = html => {
     var type = /^\s*<t(h|r|d)/.test(html) ? 'table' : 'div';
     var container = document.createElement(type);
-    container.innerHTML = html.replace(/^\s*/, '').replace(/\s*$/, '');
+    container.innerHTML = (html || '').replace(/^\s*/, '').replace(/\s*$/, '');
     return Array.from(container.childNodes);
   };
 

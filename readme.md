@@ -145,7 +145,7 @@ dom.a.target = '_blank';     // #attr-set
 ```
 
 ```js
-dom.class.tableofcontents = `
+dom.class.tableofcontents.html = `
   <ul class="tableofcontents">
     ${dom.h2.map(h2 => `
       <li>
@@ -240,8 +240,6 @@ dom.a.forEach(link => link.innerHTML = link.innerHTML + ' ^_^');
 ```
 
 > Note: this won't work `dom.a.html += ' ^_^';` for more than 1 match (for reasons)
-
-```
 
 Or get into genetics to manipulate the attributes:
 
