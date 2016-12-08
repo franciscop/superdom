@@ -13,6 +13,7 @@ module.exports = function (grunt) {
       }
     },
 
+    // Super simple minifier that works with ES6
     copy: {
       main: {
         src: 'superdom.js',
@@ -33,10 +34,6 @@ module.exports = function (grunt) {
               .replace(/\s?\+\s?/g, '+')
               .replace(/\s?\,\s?/g, ',')
               .replace(/\s?\;\s?/g, ';')
-              // .replace(/(\(\w*(:?\,\w+)*\)|\w*(:?\,\w+)*)=>/g, function (matched) {
-              //   matched = matched.replace(/\)?\=\>$/, '').replace(/^\(/, '').split(',');
-              //   console.log(matched);
-              // })
               .replace(/;}/g, '}')
               ;
           }
@@ -52,13 +49,19 @@ module.exports = function (grunt) {
       }
     },
 
+    run: {
+      test: {
+        cmd: '/home/francisco/.nvm/versions/node/v7.2.1/bin/jest'
+      }
+    },
+
     watch: {
       scripts: {
         files: [
           'package.js', // To bump versions
           'Gruntfile.js',
           'superdom.js',
-          'test/**/*'
+          '__tests__/**/*'
         ],
         tasks: ['default'],
         options: {
@@ -81,8 +84,9 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-semistandard');
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-bytesize');
+  grunt.loadNpmTasks('grunt-run');
 
   grunt.registerTask('build', ['copy', 'bytesize']);
   grunt.registerTask('test', ['semistandard']);
-  grunt.registerTask('default', ['test', 'build', 'bytesize']);
+  grunt.registerTask('default', ['test', 'run:test', 'build']);
 };

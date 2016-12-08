@@ -1,179 +1,231 @@
-/*eslint padded-blocks: 0*/
-var dom = new Proxy((() => {
+var dom = (function nodeSelector () {
+  // Convert a function into a property selector
+  let DOM = sel => DOM[sel];
 
-  var specialClasses = {
-    _flat: lists => [].concat.apply([], lists),
-    _text: lists => [].concat.apply([], lists).join(' ')
-  };
-
-  // GET dom.a.class.bla; SET dom.a.class.bla = true; DELETE dom.a.class.bla
-  var classes = {
-    // Get whether a specific class is set or not
-    get: (lists, key) => key in lists
-      ? lists[key]
-      : key in specialClasses
-        ? specialClasses[key](lists)
-        : lists.filter(list => list.includes(key)).length > 0,
-    // Set or remove a specific class
-    set: (lists, key, value) =>
-      !lists._.ref.forEach(el =>
-        el.classList[value ? 'add' : 'remove'](key)
-      ),
-    // Remove a specific class
-    deleteProperty: (lists, key) =>
-      !lists._.forEach(el =>
-        el.classList.remove(key)
-      )
-  };
-
-  var attributes = {
-    get: (els, key) => els.map(el => el.getAttribute(key)),
-    set: (els, key, value) => !els.forEach((el, i) => {
-      var auto = !(value instanceof Function) ? () => value : value;
-      el.setAttribute(key, auto(el.getAttribute(key) || '', i, el));
-    }),
-    deleteProperty: (els, key) => !els.forEach(el => el.removeAttribute(key))
-  };
-
-  // GET dom.a.html; SET dom.a.html = 5; DELETE dom.a.html
-  var dom_handler = {
-    get: (els, key) => {
-      if (els[key]) return els[key]; // keep array functions
-      if (!els.length) return;
-      if (key in attr_alias) key = attr_alias[key];
-
-      if (key in dom_proxies) {
-        if (key === 'class') {
-          var parts = els.map(el => Array.from(el.classList));
-          parts._ = { ref: els };
-          return new Proxy(parts, dom_proxies[key]);
-        }
-        return new Proxy(els, dom_proxies[key]);
-      }
-
-      if (key in recursive) {
-        // Make it recursive again
-        return new Proxy(els.reduce(recursive[key], []), dom_handler);
-      }
-
-      var attrs = els.map(el => el.getAttribute(key) || el[key]);
-      attrs._ = { ref: els };
-      return new Proxy(attrs, {
-        get: (list, key) => key in list
-          ? list[key]
-          : list.includes(key)
-      });
-    },
-    set: (els, key, value) => {
-      if (els[key]) return els[key]; // keep array functions
-      if (!els.length) return;
-      if (key in attr_alias) key = attr_alias[key];
-
-      var auto = !(value instanceof Function) ? () => value : value;
-      var setEach = (el, i) => {
-        if (key in el) {
-          el[key] = auto(el[key], i);
-          return;
-        }
-        return el.setAttribute(key, auto(el[key], i));
-      };
-      if (key === 'class') setEach = (el, i) => el.classList.add(value);
-
-      return !els.forEach(setEach);
-    },
-    deleteProperty: (els, key) => {
-      if (els[key]) return els[key]; // keep array functions
-      if (!els.length) return;
-      if (key in attr_alias) key = attr_alias[key];
-
-      return !els.forEach(el => el[key] = '');
+  // The second-level SELECTOR
+  // dom.class.X; dom.class.X = 5; delete.dom.class.X
+  // This is NOT matched though: dom.a.X
+  let derivated = (selector, orig) => new Proxy(orig, {
+    get: (orig, name) => {
+      return DOM[selector(name)];
+    }, set: (orig, name, value) => {
+      DOM[selector(name)] = value;
+      return true;
+    }, deleteProperty: (orig, name) => {
+      delete DOM[selector(name)];
+      return true;
     }
+  });
+
+  // First level SELECTOR
+  // dom.button || dom.class
+  let getter = (orig, key) => {
+    if (key in orig) return orig[key];
+
+    // Allow extending the API
+    if (key in orig.api.selectors) return derivated(orig.api.selectors[key], orig);
+    return orig.api.array(orig.api.selectors(key));
   };
 
-  // From umbrella.js (http://umbrellajs.com/)
-  var initial = html => {
-    var type = /^\s*<t(h|r|d)/.test(html) ? 'table' : 'div';
-    var container = document.createElement(type);
-    container.innerHTML = (html || '').replace(/^\s*/, '').replace(/\s*$/, '');
-    return Array.from(container.childNodes);
+  let setter = (orig, key, value) => {
+    let cb = DOM.api.fn(value, true);
+    DOM[key].each(node => node.parentNode.replaceChild(cb(node)[0], node));
   };
 
-  // dom.a = '<span>Hi there</span>'
-  initial.set = (nodes, value) => {
-    if (typeof value === 'string') {
-      value = dom(value);
-    }
-    if (value instanceof Array) {
-      value = value.reduce((frag, val) => {
-        frag.appendChild(val).parentNode;
-        return frag;
-      }, document.createDocumentFragment());
-    }
-    var auto = !(value instanceof Function)
-      ? node => value : node => dom(value(node))[0];
-    nodes.forEach(node => node.parentNode.replaceChild(auto(node), node));
+  let deletter = (base, key) => {
+    DOM[key].forEach(n => n.remove());
     return true;
   };
 
-  initial.get = (base, key) => {
-    var toReturn;
-    switch (key) {
-      case 'id':
-        toReturn = new Proxy(base, {
-          get: (t, key) => dom['#' + key],
-          set: (t, key, value) => { dom['#' + key] = value; return true; },
-          deleteProperty: (t, key) => { delete dom['#' + key]; return true; }
-        });
-        break;
-      case 'class':
-        toReturn = new Proxy(base, {
-          get: (t, key) => dom['.' + key],
-          set: (t, key, value) => { dom['.' + key] = value; return true; },
-          deleteProperty: (t, key) => { delete dom['.' + key]; return true; }
-        });
-        break;
-      case 'attr':
-        toReturn = new Proxy(base, {
-          get: (t, key) => dom[`[${key}]`],
-          set: (t, key, value) => { dom[`[${key}]`] = value; return true; },
-          deleteProperty: (t, key) => { delete dom[`[${key}]`]; return true; }
-        });
-        break;
-      default:
-        if (/^\s*\</.test(key)) toReturn = dom(key);
-        else {
-          var objs = Array.from(document.querySelectorAll(key));
-          toReturn = new Proxy(objs, dom_handler);
+  DOM.api = {
+    nodes: {}
+  };
+
+  // CANNOT SIMPLIFY TO return new Proxy() => ERROR WTF?
+  DOM = new Proxy(DOM, {
+    get: getter,
+    set: setter,
+    deleteProperty: deletter
+  });
+
+  return DOM;
+})(dom);
+
+// Second level selector
+dom = (function Attributes (DOM) {
+  // Obtain a callback from the attribute passed, whatever the type
+  DOM.api.fn = (value, parse = false) => {
+    let cb = node => parse ? DOM(value) : value;
+    if (value instanceof Function) cb = value;
+    return cb;
+  };
+
+  DOM.api.array = nodes => {
+    let getter = (orig, key) => {
+      if (key in orig) return orig[key];
+
+      let proxify = (() => {
+        let nodeCb = dom.api.nodes[key];
+        if (nodeCb) {
+          if (nodeCb.get) nodeCb = nodeCb.get;
+          return nodes.map((nodes, i, all) => nodeCb(nodes, i, all));
         }
-    }
-    return toReturn;
-  };
+        return nodes.map(node => node.getAttribute(key) || undefined);
+      })();
 
-  var dom_proxies = {
-    attr: attributes,
-    class: classes
-  };
+      proxify._ = { ref: nodes, attr: key };
+      return DOM.api.values(proxify);
+    };
 
-  var recursive = {
-    parentNode: (all, el) => {
-      var parent = el.parentNode;
-      if (parent.nodeName === '#document') {
-        return all;
+    // Setting the array; convert to fn and then proceed
+    let setter = (orig, key, value) => {
+      let nodeCb = dom.api.nodes[key];
+      if (nodeCb) {
+        if (nodeCb.set) nodeCb = nodeCb.set;
+        orig.map((node, i, all) => nodeCb(DOM.api.fn(value), node, i, all));
+        return true;
       }
-      return all.concat(parent);
-    },
-    children: (all, el) => all.concat(Array.from(el.children))
+    };
+
+    let deletter = (orig, key) => {
+      let cb = el => el.removeAttribute(key);
+      if (dom.api.nodes[key] && dom.api.nodes[key].del) {
+        cb = dom.api.nodes[key].del;
+      }
+      orig.forEach(cb);
+      return true;
+    };
+
+    return new Proxy(nodes, {
+      get: getter,
+      set: setter,
+      deleteProperty: deletter
+    });
   };
 
-  var attr_alias = {
-    html: 'innerHTML',
-    text: 'textContent',
-    parent: 'parentNode'
+  return DOM;
+})(dom);
+
+dom = (function Values (DOM) {
+  var specialAttrs = {
+    _flat: lists => [...new Set([].concat.apply([], lists))],
+    _text: lists => [...new Set([].concat.apply([], lists))].join(' ')
   };
 
-  return initial;
-})(), {
-  get: (base, key) => base.get(base, key),
-  set: (base, key, value) => base.set(dom[key], value),
-  deleteProperty: (base, key) => dom[key].forEach(n => n.remove())
-});
+  DOM.api.values = attributes => {
+    // dom.a.href._blank; dom.a.class.bla
+    let getter = (attrs, key) => {
+      if (key in attrs || typeof attrs[key] !== 'undefined') {
+        return attrs[key];
+      }
+      if (key in specialAttrs) {
+        return specialAttrs[key](attrs);
+      }
+      // TODO: personalized attr (such as in parent)
+      return specialAttrs._flat(attrs).includes(key);
+      // console.log("Called", attrs.map(node => node.getAttribute(key)));
+      // return attrs.map(node => node.getAttribute(key));
+    };
+
+    // dom.a.class.bla = false; dom.a.href._blank = false;
+    let setter = (attrs, key, value) => {
+      let nodes = attrs._.ref;
+      let attrCb = dom.api.attribute[attrs._.attr];
+      if (attrCb) {
+        if (attrCb.set) attrCb = attrCb.set;
+        attrs.map((attr, i, all) => attrCb(DOM.api.fn(value), key, nodes[i], i, all));
+      }
+      return true;
+    };
+
+    let deletter = (orig, key) => {
+      let nodes = orig._.ref;
+      let attrCb = dom.api.attribute[orig._.attr].del;
+      if (attrCb) {
+        orig.map((attr, i, all) => attrCb(key, nodes[i], i, all));
+      }
+      return true;
+    };
+
+    return new Proxy(attributes, {
+      get: getter,
+      set: setter,
+      deleteProperty: deletter
+    });
+  };
+
+  return DOM;
+})(dom);
+
+// Extensible! Yay!
+
+// Selector-level extensible
+dom.api.selectors = (name = '') => /^\s*\</.test(name)
+  ? dom.api.generate(name)
+  : [...document.querySelectorAll(name)];
+dom.api.selectors.id = name => `#${name}`;
+dom.api.selectors.class = name => `.${name}`;
+dom.api.selectors.attr = name => `[${name}]`;
+
+dom.api.generate = html => {
+  var type = /^\s*<t(h|r|d)/.test(html) ? 'table' : 'div';
+  var cont = document.createElement(type);
+  cont.innerHTML = html.replace(/^\s*/, '').replace(/\s*$/, '');
+  return [...cont.childNodes];
+};
+
+// NodeList-level getter
+// dom.a()
+dom.api.nodes = nodes => nodes;
+
+// dom.a.each = a => {}
+dom.api.nodes.each = (cb, node, i, all) => cb(node, i, all);
+
+dom.api.nodes.html = {
+  get: node => node.innerHTML,
+  set: (cb, node, i, all) => node.innerHTML = cb(node.innerHTML, i, all) || '',
+  del: node => node.innerHTML = ''
+};
+
+// dom.a.class; dom.a.class = classes => newClasses; delete dom.a.class
+dom.api.nodes.class = {
+  get: node => Array.from(node.classList),
+  set: (cb, node, i, all) => {
+    let val = cb(Array.from(node.classList), i, all);
+    val = typeof val === 'string' ? val.split(/[\s,]+/) : val;
+    val.forEach(one => node.classList.add(one));
+  }
+};
+
+dom.api.attribute = {};
+
+dom.api.attribute.class = {
+  // dom.a.class.bla = false; dom.a.class.bla = ['a', 'b'] => true;
+  set: (cb, key, node, i, all) => {
+    let val = cb(node.classList.contains(key), i, all);
+    node.classList[val ? 'add' : 'remove'](key);
+  },
+  del: (key, node) => {
+    node.classList.remove(key);
+  }
+};
+
+dom.api.alias = {};
+// dom.api.alias.html = 'innerHTML';
+dom.api.alias.text = 'textContent';
+
+// let html = dom.a.html; dom.a.html = 'bla'; dom.a.html = html => ''; delete dom.a.html;
+// dom.api.nodes.html = {
+//   get: (node, i, all) => node.innerHTML,
+//   set: (cb, node, i, all) => node.innerHTML = cb(node.innerHTML, i, all) || '',
+//   delete: (node, i, all) => node.innerHTML = ''
+// };
+// dom.api.nodes.html = (cb, node, i, all) => node.innerHTML = cb(node.innerHTML, i, all) || '';
+dom.api.nodes.text = (cb, node, i, all) => node.textContent = cb(node.textContent, i, all) || '';
+
+// NodeList-level setter
+dom.api.replace = (nodes, value) => {};
+
+if (module) {
+  module.exports = dom;
+}

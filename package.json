@@ -1,6 +1,6 @@
 {
   "name": "superdom",
-  "version": "0.9.0",
+  "version": "0.10.0",
   "description": "Better and simpler DOM manipulation",
   "main": "superdom.min.js",
   "dependencies": {},
@@ -10,10 +10,12 @@
     "grunt-contrib-copy": "^1.0.0",
     "grunt-contrib-uglify": "^2.0.0",
     "grunt-contrib-watch": "^1.0.0",
-    "grunt-semistandard": "^1.0.6"
+    "grunt-run": "^0.6.0",
+    "grunt-semistandard": "^1.0.6",
+    "jest": "^17.0.3"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -27,7 +29,7 @@
     "remove",
     "generate"
   ],
-  "author": "Francisco Presencia Fandos <publicfrancisco@hotmail.com>",
+  "author": "Francisco Presencia Fandos <public@francisco.io>",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/franciscop/superdom.js/issues"
