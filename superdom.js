@@ -62,7 +62,9 @@ dom = (function Attributes (DOM) {
 
   DOM.api.array = nodes => {
     let getter = (orig, key) => {
-      if (key in orig) return orig[key];
+      if (key in orig) {
+        return orig[key];
+      }
 
       let proxify = (() => {
         let nodeCb = dom.api.nodes[key];
@@ -70,7 +72,7 @@ dom = (function Attributes (DOM) {
           if (nodeCb.get) nodeCb = nodeCb.get;
           return nodes.map((nodes, i, all) => nodeCb(nodes, i, all));
         }
-        return nodes.map(node => node.getAttribute(key) || undefined);
+        return nodes.map(node => node.getAttribute(key) || '');
       })();
 
       proxify._ = { ref: nodes, attr: key };
@@ -79,12 +81,20 @@ dom = (function Attributes (DOM) {
 
     // Setting the array; convert to fn and then proceed
     let setter = (orig, key, value) => {
+      let cb = DOM.api.fn(value);
       let nodeCb = dom.api.nodes[key];
       if (nodeCb) {
         if (nodeCb.set) nodeCb = nodeCb.set;
-        orig.map((node, i, all) => nodeCb(DOM.api.fn(value), node, i, all));
+        orig.map((node, i, all) => nodeCb(cb, node, i, all));
         return true;
       }
+
+      if (value instanceof Function) {
+        cb = (node, i, orig) => value(node.getAttribute(key) || '', i, orig);
+      } else {
+        cb = node => value;
+      }
+      orig.forEach((node, i, orig) => node.setAttribute(key, cb(node, i, orig) || ''));
     };
 
     let deletter = (orig, key) => {
@@ -114,26 +124,30 @@ dom = (function Values (DOM) {
 
   DOM.api.values = attributes => {
     // dom.a.href._blank; dom.a.class.bla
-    let getter = (attrs, key) => {
-      if (key in attrs || typeof attrs[key] !== 'undefined') {
-        return attrs[key];
+    let getter = (orig, key) => {
+      if (key in orig || typeof orig[key] !== 'undefined') {
+        return orig[key];
+      }
+      let nodes = orig._.ref;
+      let cb = DOM.api.attribute[orig._.attr];
+      if (cb && cb.get) {
+        cb = cb.get;
+        orig.map((attr, i, all) => cb(attr, key, nodes[i], i, all));
       }
       if (key in specialAttrs) {
-        return specialAttrs[key](attrs);
+        return specialAttrs[key](orig);
       }
       // TODO: personalized attr (such as in parent)
-      return specialAttrs._flat(attrs).includes(key);
-      // console.log("Called", attrs.map(node => node.getAttribute(key)));
-      // return attrs.map(node => node.getAttribute(key));
+      return specialAttrs._flat(orig).includes(key);
     };
 
     // dom.a.class.bla = false; dom.a.href._blank = false;
-    let setter = (attrs, key, value) => {
-      let nodes = attrs._.ref;
-      let attrCb = dom.api.attribute[attrs._.attr];
+    let setter = (orig, key, value) => {
+      let nodes = orig._.ref;
+      let attrCb = dom.api.attribute[orig._.attr];
       if (attrCb) {
         if (attrCb.set) attrCb = attrCb.set;
-        attrs.map((attr, i, all) => attrCb(DOM.api.fn(value), key, nodes[i], i, all));
+        orig.map((attr, i, all) => attrCb(DOM.api.fn(value), key, nodes[i], i, all));
       }
       return true;
     };
@@ -192,10 +206,12 @@ dom.api.nodes.class = {
   get: node => Array.from(node.classList),
   set: (cb, node, i, all) => {
     let val = cb(Array.from(node.classList), i, all);
-    val = typeof val === 'string' ? val.split(/[\s,]+/) : val;
+    val = typeof val === 'string' ? dom.api.args(val) : val;
     val.forEach(one => node.classList.add(one));
   }
 };
+
+dom.api.args = val => val.split(/[\s,]+/);
 
 dom.api.attribute = {};
 
@@ -226,6 +242,6 @@ dom.api.nodes.text = (cb, node, i, all) => node.textContent = cb(node.textConten
 // NodeList-level setter
 dom.api.replace = (nodes, value) => {};
 
-if (module) {
+if (typeof module !== 'undefined') {
   module.exports = dom;
 }

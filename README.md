@@ -1,5 +1,7 @@
 # superdom.js
 
+> A big rewrite is being finished, so not all of the methods are available
+
 You have `dom`. It has all the DOM virtually within it. Use that power:
 
 ```js
@@ -27,8 +29,6 @@ Or use [npm](https://www.npmjs.com/package/superdom) or bower: `npm|bower instal
 
 ## Select
 
-> The comments with a `#` at the end of some snippets are tests references
-
 It always returns **an array with the matched elements**, just get a property of *dom* with that selector:
 
 ```js
@@ -50,7 +50,8 @@ var buttons = dom.class.button;
 
 // or by attribute:
 var targeted = dom.attr.target;
-var targeted = dom.attr.target._blank;  // Not yet
+var targeted = dom.attr.target._blank;  // Not yet, alternative:
+var targeted = dom.attr['target="_blank"'];
 ```
 
 
