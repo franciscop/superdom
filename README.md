@@ -1,7 +1,5 @@
 # superdom.js
 
-> A big rewrite is being finished, so not all of the methods are available
-
 You have `dom`. It has all the DOM virtually within it. Use that power:
 
 ```js
