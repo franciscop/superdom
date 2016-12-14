@@ -2,18 +2,6 @@
 module.exports = function (grunt) {
   // Configuration
   grunt.initConfig({
-    uglify: {
-      options: {
-        banner: '/* superdom.js ' + grunt.file.readJSON('package.json').version + ' https://github.com/franciscop/superdom.js */\n'
-      },
-      my_target: {
-        files: {
-          'superdom.min.js': 'superdom.js'
-        }
-      }
-    },
-
-
     concat: {
       main: {
         options: {
@@ -25,6 +13,17 @@ module.exports = function (grunt) {
           'superdom.js': ['src/superdom.js', 'src/plugins/*.js'],
           // 'documentation.md': ['src/readme.md', 'src/plugins/**/readme.md']
         }
+      }
+    },
+
+    usebanner: {
+      options: {
+        position: 'top',
+        banner: '/* Superdom.js v' + grunt.file.readJSON('package.json').version + ' by Francisco Presencia - MIT - https://github.com/franciscop/superdom.js */',
+        linebreak: true
+      },
+      files: {
+        src: [ './superdom.min.js' ]
       }
     },
 
@@ -99,10 +98,11 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-semistandard');
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-copy');
+  grunt.loadNpmTasks('grunt-banner');
   grunt.loadNpmTasks('grunt-bytesize');
   grunt.loadNpmTasks('grunt-run');
 
-  grunt.registerTask('build', ['concat', 'copy', 'bytesize']);
+  grunt.registerTask('build', ['concat', 'copy', 'usebanner', 'bytesize']);
   grunt.registerTask('test', ['semistandard', 'run:test']);
   grunt.registerTask('default', ['build', 'test']);
 };
