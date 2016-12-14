@@ -1,4 +1,4 @@
-const dom = require('../superdom');
+const dom = require('../../superdom');
 
 const initial = '<p>Hello <strong>world</strong></p>';
 
@@ -23,12 +23,6 @@ it('can append to html by setting a cb', () => {
   dom.body.html = html => html + 'abc';
   expect(document.body.innerHTML).toBe(initial + 'abc');
 });
-
-// NOTE: apparently not possible since even with Proxy you cannot call an array
-// it('can append to html by using it as a fn', () => {
-//   dom.body.html(html => html + 'abc');
-//   expect(document.body.innerHTML).toBe(initial + 'abc');
-// });
 
 it('passes correct arguments to the setter', () => {
   dom.body.html = (html, i, all) => {

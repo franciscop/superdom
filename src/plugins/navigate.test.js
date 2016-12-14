@@ -1,5 +1,5 @@
 // DOM navigation. Parents, children, etc
-const dom = require('../superdom');
+const dom = require('../../superdom');
 
 beforeEach(() => {
   document.body.innerHTML = '<ul class="list"><li><a></a></li></ul>';

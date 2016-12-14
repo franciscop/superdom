@@ -1,6 +1,7 @@
 // Test the attributes:
 // let links = dom.a.href; dom.a.href = '...'; delete dom.a.href;
-let dom = require('../superdom');
+const dom = require('../../superdom');
+
 let initial = '<a>Link</a>';
 let link = 'https://example.com/'
 
@@ -67,4 +68,32 @@ it('Delete an attribute', () => {
   delete dom.a.target;
   expect(dom.a.target[0]).toBe('');
   expect(dom.a[0].getAttribute('target')).toBe(null);
+});
+
+
+
+
+// EVENTS
+
+it('can handle events', done => {
+  dom.a.on.click = e => {
+    expect(e.target.nodeName).toBe('A');
+    done();
+  }
+  dom.a.trigger.click;
+});
+
+it('can handle multiple events', done => {
+  document.body.innerHTML = '<a href="">Hello</a>';
+  let counter = 0;
+  dom.a.on['click, hover'] = e => {
+    counter++;
+    expect(e.target.nodeName).toBe('A');
+    if (counter === 2) {
+      done();
+    } else {
+      dom.a.trigger.hover;
+    }
+  }
+  dom.a.trigger.click;
 });

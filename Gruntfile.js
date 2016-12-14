@@ -13,6 +13,21 @@ module.exports = function (grunt) {
       }
     },
 
+
+    concat: {
+      main: {
+        options: {
+          process: function (src, file) {
+            return /test\.js/.test(file) ? '' : src;
+          }
+        },
+        files: {
+          'superdom.js': ['src/superdom.js', 'src/plugins/*.js'],
+          // 'documentation.md': ['src/readme.md', 'src/plugins/**/readme.md']
+        }
+      }
+    },
+
     // Super simple minifier that works with ES6
     copy: {
       main: {
@@ -44,7 +59,7 @@ module.exports = function (grunt) {
     semistandard: {
       app: {
         src: [
-          'superdom.js'
+          'src/**.js', '!src/**.test.js'
         ]
       }
     },
@@ -60,7 +75,7 @@ module.exports = function (grunt) {
         files: [
           'package.js', // To bump versions
           'Gruntfile.js',
-          'superdom.js',
+          'src/**/*.js',
           '__tests__/**/*'
         ],
         tasks: ['default'],
@@ -82,11 +97,12 @@ module.exports = function (grunt) {
 
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-semistandard');
+  grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-bytesize');
   grunt.loadNpmTasks('grunt-run');
 
-  grunt.registerTask('build', ['copy', 'bytesize']);
-  grunt.registerTask('test', ['semistandard']);
-  grunt.registerTask('default', ['test', 'run:test', 'build']);
+  grunt.registerTask('build', ['concat', 'copy', 'bytesize']);
+  grunt.registerTask('test', ['semistandard', 'run:test']);
+  grunt.registerTask('default', ['build', 'test']);
 };

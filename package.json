@@ -1,12 +1,13 @@
 {
   "name": "superdom",
-  "version": "0.10.1",
+  "version": "0.11.0",
   "description": "Better and simpler DOM manipulation",
   "main": "superdom.min.js",
   "dependencies": {},
   "devDependencies": {
     "grunt": "^1.0.1",
     "grunt-bytesize": "^0.2.0",
+    "grunt-contrib-concat": "^1.0.1",
     "grunt-contrib-copy": "^1.0.0",
     "grunt-contrib-uglify": "^2.0.0",
     "grunt-contrib-watch": "^1.0.0",

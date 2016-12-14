@@ -6,7 +6,7 @@ You have `dom`. It has all the DOM virtually within it. Use that power:
 
 ```js
 // Fetch all of the links from the page
-var links = dom.a;
+var links = dom.a.href;
 
 // Make the links open in a new tab
 dom.a.target = '_blank';
@@ -50,7 +50,6 @@ var buttons = dom.class.button;
 
 // or by attribute:
 var targeted = dom.attr.target;
-var targeted = dom.attr.target._blank;  // Not yet, alternative:
 var targeted = dom.attr['target="_blank"'];
 ```
 
@@ -66,31 +65,6 @@ var list = dom`<a href="https://google.com/">Google</a>`;
 // It is the same as
 var link = dom('<a href="https://google.com/">Google</a>');
 ```
-
-
-
-
-## Replace html
-
-Set a property to replace those elements in the DOM
-
-```js
-dom['a.google'] = '<a href="https://google.com>">Google</a>';
-
-dom.class.tableofcontents = `
-  <ul class="tableofcontents">
-    ${dom.h2.map(h2 => `
-      <li>
-        <a href="#${h2.id}">
-          ${h2.innerHTML}
-        </a>
-      </li>
-    `).join('')}
-  </ul>
-`;
-```
-
-> This will replace the matched elements; to set the inner html (more common), just use the `.html` property as seen in the Attributes chapter
 
 
 
@@ -161,8 +135,15 @@ dom.class.tableofcontents.html = `
 
 ### Remove an attribute
 
-> Not possible so far using built-in expressions
+To delete an attribute use the `delete` keyword:
 
+```js
+// Remove all urls from the page
+delete dom.a.href;
+
+// Remove all ids
+delete dom.a.id;
+```
 
 
 ## Classes
@@ -217,7 +198,7 @@ dom.a.class.test = false;    // #class-make-false
 
 ## Manipulate
 
-Did we say it returns an array?
+Did we say it returns a simple array?
 
 ```js
 dom.a.forEach(link => link.innerHTML = 'I am a link');
@@ -256,8 +237,8 @@ dom.a.attr.target = (prev, i, element) => isOwnPage(element) ? '' : '_blank';
 
 ## Testing
 
-We are using Jest now for testing, just install Jest and run in the terminal:
+We are using Jest as a Grunt task for testing. Install Jest and run in the terminal:
 
 ```bash
-jest --watch
+grunt watch
 ```
