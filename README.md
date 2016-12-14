@@ -256,4 +256,8 @@ dom.a.attr.target = (prev, i, element) => isOwnPage(element) ? '' : '_blank';
 
 ## Testing
 
-As [PhantomJS doesn't support ES6 yet](https://github.com/ariya/phantomjs/issues/14506), you'll have to run these tests inside your favourite browser. Just open `test.html` from your browser and watch it run.
+We are using Jest now for testing, just install Jest and run in the terminal:
+
+```bash
+jest --watch
+```

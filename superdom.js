@@ -60,23 +60,40 @@ dom = (function Attributes (DOM) {
     return cb;
   };
 
+  // Returns something that is not a list of nodes, so keep them in reference
+  DOM.api.proxify = (proxify, nodes, key) => {
+    proxify._ = { ref: nodes, attr: key };
+    return DOM.api.values(proxify);
+  };
+
   DOM.api.array = nodes => {
     let getter = (orig, key) => {
+      // Array original function: dom.a.map()
       if (key in orig) {
         return orig[key];
       }
 
-      let proxify = (() => {
+      // Nodes API function: dom.a.class, dom.a.on
+      if (key in dom.api.nodes) {
         let nodeCb = dom.api.nodes[key];
-        if (nodeCb) {
-          if (nodeCb.get) nodeCb = nodeCb.get;
-          return nodes.map((nodes, i, all) => nodeCb(nodes, i, all));
-        }
-        return nodes.map(node => node.getAttribute(key) || '');
-      })();
+        if (nodeCb.get) nodeCb = nodeCb.get;
+        let newNodes = nodes.map((nodes, i, all) => nodeCb(nodes, i, all));
+        return DOM.api.proxify(newNodes, nodes, key);
+      }
 
-      proxify._ = { ref: nodes, attr: key };
-      return DOM.api.values(proxify);
+      // Navigation API function: dom.a.parent
+      if (key in DOM.api.navigate) {
+        let cb = DOM.api.navigate[key];
+        // Make it into a simple array if an array of arrays was returned
+        let newNodes = nodes.map(cb).reduce((all, one) => {
+          return all.concat(one);
+        }, []).filter(n => n);
+        return DOM.api.array(newNodes);
+      }
+
+      // Defaults to the attribute: dom.a.href
+      let newNodes = nodes.map(node => node.getAttribute(key) || '');
+      return DOM.api.proxify(newNodes, nodes, key);
     };
 
     // Setting the array; convert to fn and then proceed
@@ -241,6 +258,10 @@ dom.api.nodes.text = (cb, node, i, all) => node.textContent = cb(node.textConten
 
 // NodeList-level setter
 dom.api.replace = (nodes, value) => {};
+
+dom.api.navigate = {};
+dom.api.navigate.parent = node => node.parentNode || false;
+dom.api.navigate.children = node => node.children;
 
 if (typeof module !== 'undefined') {
   module.exports = dom;
