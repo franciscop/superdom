@@ -233,6 +233,18 @@ dom.a.attr.target = (prev, i, element) => isOwnPage(element) ? '' : '_blank';
 ```
 
 
+## Events
+
+You can also handle and trigger events:
+
+```js
+// Handle click events for all <a>
+dom.a.on.click = e => ...;
+
+// Trigger click event for all <a>
+dom.a.trigger.click;
+```
+
 
 ## Testing
 
