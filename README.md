@@ -1,4 +1,4 @@
-# superdom.js
+# Superdom.js
 
 You have `dom`. It has all the DOM virtually within it. Use that power:
 
@@ -10,10 +10,11 @@ var links = dom.a.href;
 dom.a.target = '_blank';
 ```
 
-> We are in pre-1.0.0 so things might change. Not compatible with [Internet Explorer and older Safari](http://caniuse.com/#feat=proxy)
+> Only for [modern browsers](http://caniuse.com/#feat=proxy)
 
 
-### Installation
+
+### Getting started
 
 Simply use the CDN via unpkg.com:
 
