@@ -19,7 +19,7 @@ dom.a.target = '_blank';
 Simply use the CDN via unpkg.com:
 
 ```html
-<script src="https://unpkg.com/superdom@0"></script>
+<script src="https://unpkg.com/superdom@1"></script>
 ```
 
 Or use [npm](https://www.npmjs.com/package/superdom) or bower: `npm|bower install superdom`.
