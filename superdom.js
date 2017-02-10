@@ -277,9 +277,13 @@ dom.api.nodes.class = {
 // Selector-level extensible
 
 // Choose which method to use
-dom.api.selectors = (name = '') => /^\s*\</.test(name)
-  ? dom.api.selectors.generate(name)
-  : [...document.querySelectorAll(name)];
+dom.api.selectors = (name = '') => (
+  name instanceof Element
+    ? [name]  // Already a node, just keep it
+    : /^\s*\</.test(name)
+      ? dom.api.selectors.generate(name)
+      : [...document.querySelectorAll(name)]
+);
 
 // The one to generate a chunk of html
 dom.api.selectors.generate = html => {
