@@ -18,12 +18,30 @@ it("can select by id", function() {
   expect(dom.id.demo.length).toBe(1);
 });
 
+it("selects by id with function", function() {
+  expect(dom.id('demo').length).toBe(1);
+  expect(dom.id('demo').id.demo).toBe(true); // Doesn't screw the chain
+});
+
 it("can select by id", function() {
   expect(dom.attr.target.length).toBe(1);
 });
 
-it("can select by id", function() {
+it("can select by attribute", function() {
   expect(dom.attr['target="_blank"'].length).toBe(1);
+});
+
+it("wraps elements", function() {
+  let el = dom.id.demo[0];
+  expect(dom(el).length).toBe(1);
+  expect(dom(el, el).length).toBe(2);
+});
+
+it("wraps an array of els", function() {
+  let el = dom.id.demo[0];
+  expect(dom([el]).length).toBe(1);
+  expect(dom([el, el]).length).toBe(2);
+  expect(dom([el, [el, [el]]]).length).toBe(3);
 });
 
 it("can select with css", function() {

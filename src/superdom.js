@@ -1,21 +1,25 @@
 let dom = (function nodeSelector () {
   // Convert a function into a property selector
-  let DOM = sel => DOM[sel];
+  // It converts "(a, b) => [a, b]" but keeps "a => a"
+  let DOM = (...sel) => DOM.api.array(DOM.api.selectors(sel.length <= 1 ? sel[0] : sel));
 
   // The second-level SELECTOR
-  // dom.class.X; dom.class.X = 5; delete.dom.class.X
+  // dom.class(X); dom.class.X; dom.class.X = 5; delete.dom.class.X
   // This is NOT matched though: dom.a.X
-  let derivated = (selector, orig) => new Proxy(orig, {
-    get: (orig, name) => {
-      return DOM[selector(name)];
-    }, set: (orig, name, value) => {
-      DOM[selector(name)] = value;
-      return true;
-    }, deleteProperty: (orig, name) => {
-      delete DOM[selector(name)];
-      return true;
-    }
-  });
+  const derivated = (selector, orig) => {
+    // Allow for a function to be used as getter
+    return new Proxy(sel => DOM(selector(sel)), {
+      get: (orig, name) => {
+        return selector(name);
+      }, set: (orig, name, value) => {
+        DOM[selector(name)] = value;
+        return true;
+      }, deleteProperty: (orig, name) => {
+        delete DOM[selector(name)];
+        return true;
+      }
+    });
+  };
 
   // First level SELECTOR
   // dom.button || dom.class
@@ -42,7 +46,7 @@ let dom = (function nodeSelector () {
 
   DOM.api = {};
 
-  // CANNOT SIMPLIFY TO return new Proxy() => ERROR WTF?
+  // CANNOT SIMPLIFY TO "return new Proxy()" => ERROR WTF?
   DOM = new Proxy(DOM, {
     get: getter,
     set: setter,

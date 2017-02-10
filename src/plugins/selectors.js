@@ -1,11 +1,14 @@
 // Selector-level extensible
 
 // Choose which method to use
-dom.api.selectors = (name = '') => name instanceof Element
-  ? [name]  // Already a node, just keep it
-  : /^\s*\</.test(name)
-    ? dom.api.selectors.generate(name)
-    : [...document.querySelectorAll(name)];
+dom.api.selectors = (sel = []) => typeof sel === 'string'
+  ? /^\s*</.test(sel)
+    ? dom.api.selectors.generate(sel)
+    : [...(document.querySelectorAll(sel))]
+  : sel instanceof Element
+    ? [sel]
+    // Allows for array of non-elements to be turned into a simple array
+    : [...sel].map(el => dom(el)).reduce((all, one) => all.concat(one), []);
 
 // The one to generate a chunk of html
 dom.api.selectors.generate = html => {
@@ -16,6 +19,6 @@ dom.api.selectors.generate = html => {
 };
 
 // Some custom selectors:
-dom.api.selectors.id = name => `#${name}`;
-dom.api.selectors.class = name => `.${name}`;
-dom.api.selectors.attr = name => `[${name}]`;
+dom.api.selectors.id = name => dom[`#${name}`];
+dom.api.selectors.class = name => dom[`.${name}`];
+dom.api.selectors.attr = name => dom[`[${name}]`];
