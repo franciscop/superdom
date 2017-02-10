@@ -219,6 +219,14 @@ dom.api.attributes.on = (cb, key, node) => {
   dom.api.helpers.args(key).forEach(event => node.addEventListener(event, cb));
 };
 
+// dom.a.handle.click = function(){}
+dom.api.attributes.handle = (cb, key, node) => {
+  dom.api.helpers.args(key).forEach(event => node.addEventListener(event, (...args) => {
+    args[0].preventDefault();
+    cb(...args);
+  }));
+};
+
 dom.api.attributes.trigger = {
   get: (prevVal, key, node) => {
     // Accept different types of event names
@@ -227,7 +235,7 @@ dom.api.attributes.trigger = {
       node.dispatchEvent(ev);
     });
   }
-}
+};
 
 
 dom.api.helpers = {};
