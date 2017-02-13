@@ -3,10 +3,10 @@
 You have `dom`. It has all the DOM virtually within it. Use that power:
 
 ```js
-// Fetch all of the links from the page
+// Fetch all the page links
 var links = dom.a.href;
 
-// Make the links open in a new tab
+// Links open in a new tab
 dom.a.target = '_blank';
 ```
 
