@@ -1,4 +1,4 @@
-# Superdom.js
+# Superdom
 
 You have `dom`. It has all the DOM virtually within it. Use that power:
 
