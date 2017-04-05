@@ -4,7 +4,7 @@ You have `dom`. It has all the DOM virtually within it. Use that power:
 
 ```js
 // Fetch all the page links
-var links = dom.a.href;
+let links = dom.a.href;
 
 // Links open in a new tab
 dom.a.target = '_blank';
@@ -22,47 +22,54 @@ Simply use the CDN via unpkg.com:
 <script src="https://unpkg.com/superdom@1"></script>
 ```
 
-Or use [npm](https://www.npmjs.com/package/superdom) or bower: `npm|bower install superdom`.
+Or use [npm](https://www.npmjs.com/package/superdom) or bower:
+
+```
+npm|bower install superdom --save
+```
 
 
 
 ## Select
 
-It always returns **an array with the matched elements**, just get a property of *dom* with that selector:
+It always returns **an array with the matched elements**. Get all the elements that match the selector:
 
 ```js
-// Simple element selector
-var allLinks = dom.a;
+// Simple element selector into an array
+let allLinks = dom.a;
+
+// Loop straight on the selection
+dom.a.forEach(link => { ... });
 
 // Combined selector
-var importantLinks = dom['a.important'];
+let importantLinks = dom['a.important'];
 ```
 
-There are also some predetermined elements, such as `id`, `class` and `attr` that can be used for selection:
+There are also some predetermined elements, such as `id`, `class` and `attr`:
 
 ```js
 // Select HTML Elements by id:
-var main = dom.id.main;
+let main = dom.id.main;
 
 // by class:
-var buttons = dom.class.button;
+let buttons = dom.class.button;
 
 // or by attribute:
-var targeted = dom.attr.target;
-var targeted = dom.attr['target="_blank"'];
+let targeted = dom.attr.target;
+let targeted = dom.attr['target="_blank"'];
 ```
 
 
 ## Generate
 
-Use it as a function or a tagged template literal to generate a DOM fragments:
+Use it as a function or a tagged template literal to generate DOM fragments:
 
 ```js
 // Not a typo; tagged template literals
-var list = dom`<a href="https://google.com/">Google</a>`;
+let link = dom`<a href="https://google.com/">Google</a>`;
 
 // It is the same as
-var link = dom('<a href="https://google.com/">Google</a>');
+let link = dom('<a href="https://google.com/">Google</a>');
 ```
 
 
@@ -90,15 +97,15 @@ The fetching will always **return an array** with the element for each of the ma
 
 ```js
 // Retrieve all the urls from the page
-var urls = dom.a.href;     // #attr-list
+let urls = dom.a.href;     // #attr-list
   // ['https://google.com', 'https://facebook.com/', ...]
 
 // Get an array of the h2 contents (alias of innerHTML)
-var h2s = dom.h2.html;     // #attr-alias
+let h2s = dom.h2.html;     // #attr-alias
   // ['Level 2 header', 'Another level 2 header', ...]
 
 // Get whether any of the attributes has the value "_blank"
-var hasBlank = dom.class.cta.target._blank;    // #attr-value
+let hasBlank = dom.class.cta.target._blank;    // #attr-value
   // true/false
 ```
 
@@ -155,22 +162,22 @@ To retrieve whether a particular class is present or not:
 
 ```js
 // Get an array with true/false for a single class
-var isTest = dom.a.class.test;     // #class-one
+let isTest = dom.a.class.test;     // #class-one
 ```
 
 For a general method to retrieve all classes you can do:
 
 ```js
 // Get a list of the classes of each matched element
-var arrays = dom.a.class;     // #class-arrays
+let arrays = dom.a.class;     // #class-arrays
   // [['important'], ['button', 'cta'], ...]
 
 // If you want a plain list with all of the classes:
-var flatten = dom.a.class._flat;     // #class-flat
+let flatten = dom.a.class._flat;     // #class-flat
   // ['important', 'button', 'cta', ...]
 
 // And if you just want an string with space-separated classes:
-var text = dom.a.class._text;     // #class-text
+let text = dom.a.class._text;     // #class-text
   // 'important button cta ...'
 ```
 
@@ -228,7 +235,7 @@ Or get into genetics to manipulate the attributes:
 dom.a.attr.target = '_blank';
 
 // Only to external sites:
-var isOwnPage = el => /^https?\:\/\/mypage\.com/.test(el.getAttribute('href'));
+let isOwnPage = el => /^https?\:\/\/mypage\.com/.test(el.getAttribute('href'));
 dom.a.attr.target = (prev, i, element) => isOwnPage(element) ? '' : '_blank';
 ```
 
