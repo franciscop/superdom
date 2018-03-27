@@ -18,7 +18,7 @@
       <div class="flex">
         <div class="full half-900">
           <h1>Superdom<sub>.js</sub></h1>
-          <p>Manipulate the DOM like it's 2016</p>
+          <p>Manipulate the DOM like it's <span id="year">2018</span></p>
           <a href="https://unpkg.com/superdom@1" target="_blank">CDN</a>
           <a href="https://github.com/franciscop/superdom/blob/master/README.md" target="_blank">Documentation</a>
           <a href="https://github.com/franciscop/superdom" target="_blank">Github</a>
@@ -37,5 +37,9 @@ dom<span class="token punctuation">.</span>class<span class="token punctuation">
     </main>
     <article class="loading" data-src="README.md"></article>
     <script src="https://unpkg.com/paperdocs@1/paperdocs.min.js"></script>
+    <script src="https://unpkg.com/superdom@1"></script>
+    <script>
+      dom.id.year = (new Date()).getFullYear();
+    </script>
   </body>
 </html>
