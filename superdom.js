@@ -6,7 +6,7 @@ let dom = (function nodeSelector () {
   // The second-level SELECTOR
   // dom.class(X); dom.class.X; dom.class.X = 5; delete.dom.class.X
   // This is NOT matched though: dom.a.X
-  const derivated = (selector, orig) => {
+  const derivated = (selector) => {
     // Allow for a function to be used as getter
     return new Proxy(sel => DOM(selector(sel)), {
       get: (orig, name) => {
@@ -61,7 +61,7 @@ let dom = (function nodeSelector () {
 dom = (function Attributes (DOM) {
   // Obtain a callback from the attribute passed, whatever the type
   DOM.api.fn = (value, parse = false) => {
-    let cb = node => parse ? DOM(value) : value;
+    let cb = () => parse ? DOM(value) : value;
     if (value instanceof Function) cb = value;
     return cb;
   };
@@ -75,7 +75,8 @@ dom = (function Attributes (DOM) {
   DOM.api.array = nodes => {
     let getter = (orig, key) => {
       // Array original function: dom.a.map()
-      if (key in orig) {
+      // Symbols (e.g. Symbol.isConcatSpreadable read by concat) are never attributes
+      if (key in orig || typeof key === 'symbol') {
         return orig[key];
       }
 
@@ -115,7 +116,7 @@ dom = (function Attributes (DOM) {
       if (value instanceof Function) {
         cb = (node, i, orig) => value(node.getAttribute(key) || '', i, orig);
       } else {
-        cb = node => value;
+        cb = () => value;
       }
       orig.forEach((node, i, orig) => node.setAttribute(key, cb(node, i, orig) || ''));
     };

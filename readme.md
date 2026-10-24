@@ -1,4 +1,4 @@
-# Superdom [![superdom](https://img.shields.io/npm/v/superdom?label=superdom&color=greenlime)](https://www.npmjs.com/package/superdom) [![gzip size](https://img.badgesize.io/franciscop/superdom/master/superdom.min.js.svg?label=gzip&logo=&compression=gzip)](https://github.com/franciscop/superdom/blob/master/superdom.min.js) [![dependencies](https://img.shields.io/badge/dependencies-0-limegreen.svg)](https://github.com/franciscop/superdom/blob/master/package.json)
+# Superdom [![npm install superdom](https://img.shields.io/badge/npm%20install-superdom-blue.svg)](https://www.npmjs.com/package/superdom) [![tests](https://github.com/franciscop/superdom/workflows/tests/badge.svg)](https://github.com/franciscop/superdom/actions) [![gzip size](https://img.badgesize.io/franciscop/superdom/master/superdom.min.js.svg?label=gzip&logo=&compression=gzip)](https://github.com/franciscop/superdom/blob/master/superdom.min.js)
 
 You have `dom`. It has all the DOM virtually within it. Use that power:
 

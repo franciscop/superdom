@@ -75,7 +75,8 @@ dom = (function Attributes (DOM) {
   DOM.api.array = nodes => {
     let getter = (orig, key) => {
       // Array original function: dom.a.map()
-      if (key in orig) {
+      // Symbols (e.g. Symbol.isConcatSpreadable read by concat) are never attributes
+      if (key in orig || typeof key === 'symbol') {
         return orig[key];
       }
 
