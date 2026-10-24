@@ -37,6 +37,7 @@ let dom = (function nodeSelector () {
   let setter = (orig, key, value) => {
     let cb = DOM.api.fn(value, true);
     DOM[key].each(node => node.parentNode.replaceChild(cb(node)[0], node));
+    return true;
   };
 
   let deletter = (base, key) => {
@@ -119,6 +120,7 @@ dom = (function Attributes (DOM) {
         cb = () => value;
       }
       orig.forEach((node, i, orig) => node.setAttribute(key, cb(node, i, orig) || ''));
+      return true;
     };
 
     let deletter = (orig, key) => {

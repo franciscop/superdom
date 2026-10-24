@@ -74,16 +74,16 @@ it('Delete an attribute', () => {
 
 // EVENTS
 
-it('can handle events', done => {
+it('can handle events', () => new Promise(done => {
   dom.a.on.click = e => {
     expect(e.target.nodeName).toBe('A');
     done();
   }
   // oxlint-disable-next-line no-unused-expressions
   dom.a.trigger.click;
-});
+}));
 
-it('can handle multiple events', done => {
+it('can handle multiple events', () => new Promise(done => {
   document.body.innerHTML = '<a href="">Hello</a>';
   let counter = 0;
   dom.a.on['click, hover'] = e => {
@@ -98,4 +98,4 @@ it('can handle multiple events', done => {
   }
   // oxlint-disable-next-line no-unused-expressions
   dom.a.trigger.click;
-});
+}));

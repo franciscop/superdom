@@ -1,4 +1,39 @@
-.git
-node_modules
-npm-debug.log
+# PROJECT (project-specific; put new rules and their ! negations here)
+
+# LOCKFILES (libraries don't commit them)
+package-lock.json
+bun.lock
+yarn.lock
+pnpm-lock.yaml
+
+# BUILD OUTPUTS
+dist/
+build/
+coverage/
+.cache/
+
+# OS / SYSTEM
 .DS_Store
+*.swp
+*.swo
+*~
+*.tmp
+
+# EDITORS
+.vscode/*
+!.vscode/extensions.json
+.idea
+.claude
+.eslintcache
+
+# DEPENDENCIES
+node_modules/
+
+# LOGS
+/logs/
+*.log
+
+# ENV
+.env*
+!.env.example
+!.env.sample
