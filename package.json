@@ -3,7 +3,6 @@
   "version": "1.3.0",
   "description": "Better and simpler DOM manipulation",
   "main": "superdom.min.js",
-  "dependencies": {},
   "devDependencies": {
     "grunt": "^1.0.1",
     "grunt-banner": "^0.6.0",
@@ -14,15 +13,14 @@
     "grunt-contrib-watch": "^1.0.0",
     "grunt-run": "^0.6.0",
     "grunt-semistandard": "^1.0.6",
-    "jest": "^17.0.3"
+    "jest": "^17.0.3",
+    "oxlint": "^1.89.0"
   },
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "lint": "oxlint src"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/franciscop/superdom.js.git"
-  },
+  "repository": "github:franciscop/superdom",
   "keywords": [
     "dom",
     "manipulation",
@@ -31,10 +29,14 @@
     "remove",
     "generate"
   ],
-  "author": "Francisco Presencia Fandos <public@francisco.io>",
+  "author": "Francisco Presencia <public@francisco.io> (https://francisco.io/)",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/franciscop/superdom.js/issues"
   },
-  "homepage": "https://github.com/franciscop/superdom.js#readme"
+  "homepage": "https://github.com/franciscop/superdom.js#readme",
+  "files": [
+    "superdom.js",
+    "superdom.min.js"
+  ]
 }

@@ -2,7 +2,6 @@
 // let links = dom.a.href; dom.a.href = '...'; delete dom.a.href;
 const dom = require('../../superdom');
 
-let initial = '<a>Link</a>';
 let link = 'https://example.com/'
 
 beforeEach(() => {
@@ -80,6 +79,7 @@ it('can handle events', done => {
     expect(e.target.nodeName).toBe('A');
     done();
   }
+  // oxlint-disable-next-line no-unused-expressions
   dom.a.trigger.click;
 });
 
@@ -92,8 +92,10 @@ it('can handle multiple events', done => {
     if (counter === 2) {
       done();
     } else {
+      // oxlint-disable-next-line no-unused-expressions
       dom.a.trigger.hover;
     }
   }
+  // oxlint-disable-next-line no-unused-expressions
   dom.a.trigger.click;
 });
